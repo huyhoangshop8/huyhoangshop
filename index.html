@@ -340,19 +340,13 @@
             pointer-events: none;
         }
 
-        .product-card-img-container {
+        .product-card > img {
             width: 100%;
             height: 250px;
-            overflow: hidden;
+            object-fit: cover;
             border-bottom: 1px solid #eee;
             cursor: pointer;
-            position: relative;
-        }
-
-        .product-card-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            transition: transform 0.1s;
         }
 
         .product-info {
@@ -559,141 +553,361 @@
         .site-footer p { margin: 8px 0; }
         .site-footer .highlight { color: #f1c40f; font-weight: bold; }
 
-        /* ========================================================
-           BỔ SUNG THÊM CSS MỚI CHO HỆ THỐNG ĐĂNG NHẬP & ADMIN
-           ======================================================== */
+        /* =========================================================
+           STYLE NÂNG CẤP CHUYÊN DỤNG CHO QUẢN TRỊ VIÊN (ADMIN)
+           ========================================================= */
         
-        /* Bong bóng dấu cộng Admin màu đỏ phía trên Zalo */
-        .floating-admin-btn {
+        .admin-floating-btn {
             position: fixed;
-            bottom: 105px; /* Nằm ngay trên nút Zalo (30px + 60px chiều cao + 15px giãn cách) */
+            bottom: 105px; /* Ngay phía trên bong bóng Zalo */
             right: 30px;
             width: 60px;
             height: 60px;
-            background-color: #e74c3c;
+            background-color: #ff3b30;
+            color: white;
             border-radius: 50%;
-            display: none; /* Chỉ hiện khi đăng nhập đúng */
+            display: none; /* Ban đầu ẩn, chỉ hiện khi đăng nhập thành công */
             justify-content: center;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-            border: 3px solid #ff4d4d;
+            box-shadow: 0 5px 15px rgba(255, 59, 48, 0.4);
+            border: 3px solid #fff;
             cursor: pointer;
             z-index: 99;
-            transition: transform 0.3s, background-color 0.3s;
-            color: white;
-            font-size: 32px;
+            font-size: 30px;
             font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
         }
 
-        .floating-admin-btn:hover {
+        .admin-floating-btn:hover {
             transform: scale(1.1);
-            background-color: #ff3333;
+            background-color: #e02e24;
         }
 
-        /* Giao diện Bảng điều khiển Admin ẩn */
-        #admin-workspace {
-            display: none;
-            padding: 40px;
-            background: #fff;
-            margin: 20px auto;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            max-width: 800px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .admin-title {
-            color: #d35400;
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 30px;
-            font-size: 26px;
-        }
-
-        .admin-menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .admin-menu-btn {
-            background: #e67e22;
+        .auth-choice-btn {
+            background-color: #d35400;
             color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 14px;
             border: none;
-            padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .auth-choice-btn.guest {
+            background-color: #7f8c8d;
+        }
+
+        .auth-choice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .admin-dashboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .admin-action-btn {
+            background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+            color: white;
             font-size: 18px;
             font-weight: bold;
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.2);
+            transition: all 0.3s ease;
         }
 
-        .admin-menu-btn:hover {
-            background: #d35400;
+        .admin-action-btn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(211, 84, 0, 0.3);
         }
 
-        /* CSS Overlays & Modals Quản Trị */
-        .admin-overlay {
+        .admin-modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1001;
             justify-content: center;
             align-items: center;
             padding: 15px;
-            box-sizing: border-box;
         }
 
-        .admin-modal {
-            background: white;
-            border-radius: 20px;
+        .admin-modal-content {
+            background: #fff;
             width: 100%;
+            max-width: 600px;
+            border-radius: 25px;
             padding: 25px;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .admin-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #f1c40f;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .admin-modal-header h3 {
+            margin: 0;
+            color: #d35400;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .admin-close-btn {
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .admin-close-btn:hover {
+            color: #c0392b;
         }
 
         .admin-form-group {
             margin-bottom: 15px;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .admin-form-group label {
             font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
+            color: #2c3e50;
+            font-size: 15px;
         }
 
-        .admin-form-group input[type="text"],
-        .admin-form-group textarea {
+        .admin-input, .admin-textarea, .admin-select {
             width: 100%;
-            padding: 10px;
-            border: 1.5px solid #ccc;
-            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
             box-sizing: border-box;
         }
 
-        /* Nút input kiểu range cho chỉnh vị trí hình ảnh */
-        input[type="range"] {
-            accent-color: #e67e22;
+        .admin-input:focus, .admin-textarea:focus, .admin-select:focus {
+            border-color: #FFC107;
+            background-color: #fff;
+        }
+
+        /* Khung Cắt / Vị trí hình ảnh dạng nét đứt */
+        .crop-dashed-container {
+            border: 3px dashed #f1c40f;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fffde7;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .crop-dashed-container:hover {
+            border-color: #d35400;
+            background-color: #fff9c4;
+        }
+
+        .crop-dashed-text {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #d35400;
+            font-size: 16px;
+        }
+
+        .crop-preview-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            background-color: #eaeaea;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .crop-preview-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transform-origin: center center;
+        }
+
+        .slider-controls {
+            margin-top: 15px;
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .slider-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .slider-row label {
+            width: 120px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .slider-row input[type="range"] {
+            flex: 1;
             cursor: pointer;
         }
 
-        /* ========================================================
-           KẾT THÚC PHẦN CSS MỚI BỔ SUNG
-           ======================================================== */
+        /* Danh sách sản phẩm dạng Grid trong Dashboard Admin */
+        .admin-prod-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 2px solid #f1c40f;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            background-color: #fcfcfc;
+        }
+
+        .admin-prod-card {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-prod-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .admin-prod-card p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-prod-card.selected {
+            border-color: #2ecc71;
+            background-color: #e8f8f5;
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+        }
+
+        .admin-prod-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #2ecc71;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            line-height: 18px;
+            text-align: center;
+        }
+
+        .admin-delete-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .toggle-select-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .preview-selected-section {
+            border-top: 2px solid #eee;
+            padding-top: 12px;
+            margin-top: 15px;
+        }
+
+        .preview-selected-title {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        .preview-selected-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .preview-selected-row img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+        }
+
+        /* ============================================
+           RESPONSIVE — GIỮ NGUYÊN MÀU SẮC & ANIMATION
+           ============================================ */
 
         * { box-sizing: border-box; }
 
@@ -737,7 +951,7 @@
             .section-title { font-size: 22px; }
 
             .product-card { width: 240px; }
-            .product-card-img-container { height: 200px; }
+            .product-card > img { height: 200px; }
         }
 
         /* Điện thoại */
@@ -816,7 +1030,7 @@
 
             .product-grid { gap: 16px; }
             .product-card { width: 62vw; max-width: 230px; }
-            .product-card-img-container { height: 45vw; max-height: 190px; }
+            .product-card > img { height: 45vw; max-height: 190px; }
             .product-title { font-size: 17px; }
             .view-count { font-size: 12px; padding: 4px 9px; }
 
@@ -827,8 +1041,8 @@
             }
             #products-view .product-card,
             #1-view .product-card { width: 44vw; max-width: 200px; }
-            #products-view .product-card-img-container,
-            #1-view .product-card-img-container { height: 34vw; max-height: 160px; }
+            #products-view .product-card > img,
+            #1-view .product-card > img { height: 34vw; max-height: 160px; }
 
             .empty-message { font-size: 20px; padding: 30px 0; }
 
@@ -844,9 +1058,6 @@
             .user-icon { width: 50px; height: 50px; }
             .user-icon svg { width: 28px; height: 28px; }
             .contact-tooltip { font-size: 13px; padding: 9px 14px; }
-
-            /* Điều chỉnh di động cho nút admin */
-            .floating-admin-btn { bottom: 85px; right: 18px; width: 50px; height: 50px; font-size: 26px; }
         }
 
         /* Điện thoại nhỏ */
@@ -871,7 +1082,6 @@
     </div>
 
     <header>
-        <!-- Thay đổi hàm onclick của logo để tích hợp khả năng thoát Admin -->
         <div class="logo" onclick="handleLogoClick()">
             <img src="67.jpg" alt="Logo">
             <h1>Huy Hoàng Shop</h1>
@@ -911,17 +1121,6 @@
     </div>
 
     <main>
-        <!-- Bảng điều khiển Admin ẩn sẽ hiển thị ở đây -->
-        <div id="admin-workspace" class="view-section">
-            <h2 class="admin-title">🛠️ BẢNG ĐIỀU KHIỂN QUẢN TRỊ 🛠️</h2>
-            <div class="admin-menu-grid">
-                <button class="admin-menu-btn" onclick="openEditMenu()">Chỉnh sửa sản phẩm</button>
-                <button class="admin-menu-btn" onclick="openDeleteMenu()" style="background-color: #c0392b; box-shadow: 0 4px 10px rgba(192, 57, 43, 0.3);">Xoá sản phẩm</button>
-                <button class="admin-menu-btn" onclick="openAddMenu()" style="background-color: #27ae60; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);">Đăng sản phẩm</button>
-                <button class="admin-menu-btn" onclick="exitAdminMode()" style="background-color: #2980b9; box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3);">Trở lại giao diện Web</button>
-            </div>
-        </div>
-
         <div id="home-view" class="view-section active">
             
             <div class="intro-box">
@@ -975,14 +1174,26 @@
 
         <div id="2-view" class="view-section">
             <h2 class="category-title">Đồ Gia Dụng</h2>
-            <div class="product-grid" id="houseware-category-container" style="flex-wrap: wrap; justify-content: center;">
-                <div class="empty-message">Đang Cập Nhật 🥲</div>
+            <div class="product-grid" id="household-category-container" style="flex-wrap: wrap; justify-content: center;">
+                <div class="empty-message">Đồ Gia Dụng<br>Đang Cập Nhật 🥲</div>
             </div>
         </div>
 
         <div id="empty-view" class="view-section">
             <div class="empty-message">
                 Chưa cập nhật 🥲
+            </div>
+        </div>
+
+        <div id="admin-view" class="view-section">
+            <div class="intro-box">
+                <h2 style="text-align: center;">QUẢN TRỊ VIÊN SHOP</h2>
+                <p style="text-align: center; color: #7f8c8d; font-weight: bold;">Chào mừng Hoàng, vui lòng chọn tính năng quản lý bên dưới:</p>
+                <div class="admin-dashboard-container">
+                    <button class="admin-action-btn" onclick="openEditProductsModal()">✏️ Chỉnh sửa sản phẩm</button>
+                    <button class="admin-action-btn" onclick="openDeleteProductsModal()">🗑️ Xoá sản phẩm</button>
+                    <button class="admin-action-btn" onclick="openAddProductModal()">✨ Đăng sản phẩm</button>
+                </div>
             </div>
         </div>
     </main>
@@ -994,8 +1205,7 @@
         <p>Liên hệ: <span class="highlight">0355728826</span></p>
     </footer>
 
-    <!-- Dấu cộng màu đỏ quyền Admin (Nằm phía trên Zalo) -->
-    <div class="floating-admin-btn" id="admin-bubble" onclick="openAdminSection()">+</div>
+    <div class="admin-floating-btn" id="admin-btn-floating" onclick="enterAdminMode()">+</div>
 
     <div class="floating-contact" onclick="handleContactClick()">
         <div class="contact-tooltip">Liên hệ: 0355728826</div>
@@ -1018,208 +1228,175 @@
         </div>
     </div>
 
-    <!-- ========================================================
-         BẮT ĐẦU CÁC POPUP MODAL MỚI PHỤC VỤ CHỨC NĂNG QUẢN TRỊ
-         ======================================================== -->
+    <div class="admin-modal-overlay" id="initial-choice-modal" style="display: flex;">
+        <div class="admin-modal-content" style="max-width: 420px; text-align: center;">
+            <h2 style="color: #d35400; margin-top: 0; font-size: 24px;">Huy Hoàng Shop</h2>
+            <p style="font-size: 15px; margin-bottom: 25px; line-height: 1.6;">Chào mừng bạn đến với Cửa hàng Đồ Gia Dụng & Thủy Tinh Huy Hoàng!</p>
+            <button class="auth-choice-btn" onclick="openLoginForm()">🔐 Đăng nhập Quản trị viên</button>
+            <button class="auth-choice-btn guest" onclick="guestLogin()">🛒 Truy cập với Khách Hàng</button>
+        </div>
+    </div>
 
-    <!-- Menu Đăng Nhập Hệ Thống ban đầu -->
-    <div id="entry-modal" class="modal-overlay" style="display: flex;">
-        <div class="modal-content" style="max-width: 400px; text-align: center;">
-            <h2 style="color: #d35400; margin-bottom: 25px;">Chào mừng bạn đến với<br>Huy Hoàng Shop</h2>
-            <div id="entry-step-1">
-                <button class="buy-btn" onclick="selectLoginMode('admin')" style="width: 100%; margin-bottom: 15px; background-color: #d35400;">Đăng nhập (Admin)</button>
-                <button class="buy-btn" onclick="selectLoginMode('guest')" style="width: 100%; background-color: #2ecc71;">Đăng nhập với Khách Hàng</button>
+    <div class="admin-modal-overlay" id="login-form-modal">
+        <div class="admin-modal-content" style="max-width: 400px;">
+            <span class="close-btn" onclick="closeLoginForm()">&times;</span>
+            <h3 style="color: #d35400; margin-top: 0; text-align: center; font-size: 20px; margin-bottom: 20px; font-weight: bold;">ĐĂNG NHẬP HỆ THỐNG</h3>
+            
+            <div class="admin-form-group">
+                <label for="login-username">Tài khoản:</label>
+                <input type="text" id="login-username" class="admin-input" placeholder="Tên đăng nhập...">
             </div>
-            <div id="entry-step-2" style="display: none; position: relative; text-align: left;">
-                <span class="close-btn" onclick="closeEntryModal()" style="top: -15px; right: -5px;">×</span>
-                <h3 style="color: #333; margin-top: 0; text-align: center;">Đăng nhập hệ thống</h3>
+
+            <div class="admin-form-group">
+                <label for="login-password">Mật khẩu:</label>
+                <input type="password" id="login-password" class="admin-input" placeholder="Mật khẩu...">
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="buy-btn" style="width: 100%; border-radius: 12px; font-size: 16px;" onclick="handleLoginSubmit()">Đồng Ý</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-modal-overlay" id="edit-products-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Chỉnh sửa sản phẩm</h3>
+                <span class="admin-close-btn" onclick="closeEditProductsModal()">&times;</span>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="admin-edit-search" class="admin-input" placeholder="🔎 Tìm kiếm sản phẩm cần sửa..." oninput="handleEditSearch(event)">
+            </div>
+
+            <div class="admin-prod-grid" id="edit-products-list">
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-modal-overlay" id="edit-single-product-modal" style="z-index: 1002;">
+        <div class="admin-modal-content" style="max-width: 550px;">
+            <div class="admin-modal-header">
+                <h3>Chi Tiết & Cắt Chỉnh Ảnh</h3>
+                <span class="admin-close-btn" onclick="closeEditSingleProductModal()">&times;</span>
+            </div>
+            
+            <div class="admin-form-group">
+                <label for="edit-prod-title">Tên sản phẩm:</label>
+                <input type="text" id="edit-prod-title" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+                <label>Hình ảnh (Click khung để đổi và kéo các thanh trượt bên dưới để chỉnh vị trí):</label>
+                <div class="crop-dashed-container" onclick="triggerEditImgUpload()">
+                    <span class="crop-dashed-text">Chọn ảnh thay đổi</span>
+                    <div class="crop-preview-wrapper">
+                        <img id="edit-img-preview" class="crop-preview-img" src="" alt="">
+                    </div>
+                </div>
+                <input type="file" id="edit-img-file-input" accept="image/jpeg, image/png" style="display: none;" onchange="handleEditImgSelected(event)">
                 
-                <div style="margin-bottom: 12px;">
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Tài khoản:</label>
-                    <input type="text" id="admin-user" style="width: 100%; padding: 10px; border: 1.5px solid #ccc; border-radius: 10px;">
+                <div class="slider-controls">
+                    <div class="slider-row">
+                        <label>Phóng to (Scale):</label>
+                        <input type="range" id="edit-zoom-slider" min="1" max="3" step="0.05" value="1" oninput="updateEditImgTransform()">
+                    </div>
+                    <div class="slider-row">
+                        <label>Dịch ngang (X):</label>
+                        <input type="range" id="edit-x-slider" min="-120" max="120" step="1" value="0" oninput="updateEditImgTransform()">
+                    </div>
+                    <div class="slider-row">
+                        <label>Dịch dọc (Y):</label>
+                        <input type="range" id="edit-y-slider" min="-120" max="120" step="1" value="0" oninput="updateEditImgTransform()">
+                    </div>
                 </div>
-                
-                <div style="margin-bottom: 18px;">
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Mật khẩu:</label>
-                    <input type="password" id="admin-pass" style="width: 100%; padding: 10px; border: 1.5px solid #ccc; border-radius: 10px;">
-                </div>
+            </div>
 
-                <button class="buy-btn" onclick="submitAdminLogin()" style="width: 100%; background-color: #d35400;">Xác nhận</button>
-                <p id="login-error-msg" style="color: red; font-size: 14px; text-align: center; margin-top: 10px; font-weight: bold;"></p>
+            <div class="admin-form-group">
+                <label for="edit-prod-details">Nội dung chi tiết:</label>
+                <textarea id="edit-prod-details" class="admin-textarea" rows="5"></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                <button class="buy-btn" style="background-color: #27ae60;" id="save-single-edit-btn">Lưu Lại</button>
             </div>
         </div>
     </div>
 
-    <!-- 1. Modal Chỉnh Sửa Sản Phẩm chính -->
-    <div id="edit-modal" class="admin-overlay">
-        <div class="admin-modal" style="max-width: 650px;">
-            <span class="close-btn" onclick="closeAdminModal('edit-modal')">×</span>
-            <h2 style="color: #d35400; text-align: center; margin-top:0;">Chỉnh sửa sản phẩm</h2>
+    <div class="admin-modal-overlay" id="delete-products-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Xoá Sản Phẩm</h3>
+                <span class="admin-close-btn" onclick="closeDeleteProductsModal()">&times;</span>
+            </div>
             
-            <input type="text" id="edit-search-bar" placeholder="Tìm sản phẩm để sửa..." style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1.5px solid #ccc; border-radius: 25px; font-size: 16px;">
+            <div class="admin-prod-grid" id="delete-products-list">
+            </div>
+
+            <div class="preview-selected-section" id="delete-selected-preview" style="display: none;">
+                <h4 class="preview-selected-title">Sản phẩm đang được chọn để xoá:</h4>
+                <div class="preview-selected-row" id="delete-preview-row"></div>
+            </div>
+
+            <div class="admin-delete-footer">
+                <button class="toggle-select-btn" id="toggle-multi-select-btn" style="background-color: #e74c3c;" onclick="toggleMultiSelectMode()">Chọn nhiều [Tắt]</button>
+                <button class="buy-btn" style="background-color: #c0392b;" onclick="triggerDeleteConfirm()">Xoá Đã Chọn</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-modal-overlay" id="delete-confirm-modal" style="z-index: 1002;">
+        <div class="admin-modal-content" style="max-width: 400px; text-align: center;">
+            <h3 style="color: #c0392b; margin-top: 0;">CẢNH BÁO XOÁ DỮ LIỆU</h3>
+            <p style="font-weight: bold; line-height: 1.5;">Bạn chắc chắn muốn xoá những sản phẩm trên?</p>
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
+                <button class="buy-btn" style="background-color: #c0392b; width: 110px;" onclick="confirmDeleteProducts()">Đồng ý</button>
+                <button class="buy-btn" style="background-color: #7f8c8d; width: 110px;" onclick="closeDeleteConfirmModal()">Không</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-modal-overlay" id="add-product-modal">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3>Đăng Sản Phẩm Mới</h3>
+                <span class="admin-close-btn" onclick="closeAddProductModal()">&times;</span>
+            </div>
             
-            <div id="edit-product-list" style="display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto; padding-right: 5px;">
-                <!-- Populate Dynamically -->
-            </div>
-        </div>
-    </div>
-
-    <!-- 1.2 Modal Chi tiết chỉnh sửa sản phẩm A -->
-    <div id="edit-detail-modal" class="admin-overlay">
-        <div class="admin-modal" style="max-width: 600px;">
-            <span class="close-btn" onclick="closeAdminModal('edit-detail-modal')">×</span>
-            <h2 style="color: #d35400; text-align: center; margin-top:0;">Thông tin chi tiết sản phẩm</h2>
-            
             <div class="admin-form-group">
-                <label>Tên sản phẩm:</label>
-                <input type="text" id="edit-detail-title">
+                <label for="new-prod-title">Tên sản phẩm (1 - 20 ký tự):</label>
+                <input type="text" id="new-prod-title" class="admin-input" placeholder="Nhập tên sản phẩm...">
             </div>
 
             <div class="admin-form-group">
-                <label>Nội dung chi tiết:</label>
-                <textarea id="edit-detail-desc" style="height: 140px; line-height: 1.6;"></textarea>
+                <label>Ảnh sản phẩm (Định dạng PNG/JPG):</label>
+                <div class="crop-dashed-container" onclick="triggerAddImgUpload()">
+                    <span id="add-dashed-label" class="crop-dashed-text">Click để tải ảnh lên</span>
+                    <div class="crop-preview-wrapper">
+                        <img id="add-img-preview" class="crop-preview-img" src="" alt="" style="display: none;">
+                    </div>
+                </div>
+                <input type="file" id="add-img-file-input" accept="image/jpeg, image/png" style="display: none;" onchange="handleAddImgSelected(event)">
             </div>
 
             <div class="admin-form-group">
-                <label>Hình ảnh (Click vào hình để thay đổi & căn chỉnh vị trí):</label>
-                <div id="edit-detail-img-container" onclick="openImageAdjustModal()" style="border: 2px dashed #e67e22; border-radius: 15px; overflow: hidden; height: 230px; display: flex; justify-content: center; align-items: center; cursor: pointer; background-color: #f9f9f9; position: relative;">
-                    <img id="edit-detail-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
-                    <div style="position: absolute; background: rgba(0,0,0,0.6); color: white; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: bold;">Nhấp để thay đổi</div>
-                </div>
+                <label for="new-prod-details">Nội dung chi tiết (10 - 250 ký tự):</label>
+                <textarea id="new-prod-details" class="admin-textarea" rows="4" placeholder="Thông tin chi tiết sản phẩm và giá lẻ, combo sỉ..."></textarea>
             </div>
 
-            <div style="display:flex; justify-content: flex-end; margin-top: 10px;">
-                <button class="buy-btn" id="save-edit-btn" style="background-color: #27ae60;">Lưu thay đổi</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 1.3 Modal vẽ khung đứt căn chỉnh hình ảnh -->
-    <div id="image-adjust-modal" class="admin-overlay">
-        <div class="admin-modal" style="max-width: 500px; text-align: center;">
-            <span class="close-btn" onclick="closeAdminModal('image-adjust-modal')">×</span>
-            <h2 style="color: #d35400; margin-top:0;">Chỉnh sửa hình ảnh & Vị trí</h2>
-            
-            <!-- Khung nét đứt -->
-            <div id="dashed-crop-box" onclick="triggerFileInput()" style="border: 3px dashed #e67e22; width: 100%; height: 260px; margin: 15px 0; border-radius: 15px; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #f2f2f2; position: relative; cursor: pointer;">
-                <div id="crop-box-text" style="position: absolute; z-index: 2; background: rgba(255,255,255,0.9); padding: 8px 15px; border-radius: 10px; font-weight: bold; color: #e67e22; border: 2px solid #e67e22;">Chọn ảnh thay đổi</div>
-                <img id="adjust-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s; transform-origin: center;">
-            </div>
-
-            <input type="file" id="image-file-input" accept=".jpg, .jpeg, .png" style="display: none;" onchange="handleImageFileSelect(event)">
-
-            <!-- Căn chỉnh vị trí hình bằng Thanh Trượt mượt mà -->
-            <div style="margin-bottom: 20px; text-align: left;">
-                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
-                    <span>Căn chỉnh vị trí dọc (Y-Offset):</span>
-                </div>
-                <input type="range" id="slider-offset-y" min="-100" max="100" value="0" style="width: 100%; margin-bottom: 12px;" oninput="applyImageTransform()">
-                
-                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
-                    <span>Căn chỉnh vị trí ngang (X-Offset):</span>
-                </div>
-                <input type="range" id="slider-offset-x" min="-100" max="100" value="0" style="width: 100%; margin-bottom: 12px;" oninput="applyImageTransform()">
-
-                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; margin-bottom: 5px;">
-                    <span>Thu phóng (Zoom):</span>
-                </div>
-                <input type="range" id="slider-zoom" min="1" max="3" step="0.1" value="1" style="width: 100%; margin-bottom: 10px;" oninput="applyImageTransform()">
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                <button class="buy-btn" onclick="saveImageAdjust()" style="background-color: #27ae60; padding: 10px 25px;">Xác nhận</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. Modal Xóa Sản Phẩm chính -->
-    <div id="delete-modal" class="admin-overlay">
-        <div class="admin-modal" style="max-width: 700px; display: flex; flex-direction: column;">
-            <span class="close-btn" onclick="closeAdminModal('delete-modal')">×</span>
-            <h2 style="color: #c0392b; text-align: center; margin-top:0;">Xoá sản phẩm</h2>
-            
-            <div id="delete-product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; max-height: 300px; overflow-y: auto; padding: 10px; border: 1px dashed #ddd; border-radius: 10px;">
-                <!-- Populated Dynamically -->
-            </div>
-
-            <!-- Khung hiển thị ảnh xem trước phía dưới khi click chọn ở chế độ Chọn nhiều -->
-            <div id="delete-preview-container" style="margin-top: 15px; display: none; text-align: left;">
-                <h4 style="margin: 0 0 10px 0; color: #333;">Ảnh các sản phẩm đã chọn:</h4>
-                <div id="delete-preview-strip" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px;">
-                    <!-- Previews -->
-                </div>
-            </div>
-
-            <div style="display:flex; justify-content: space-between; align-items: center; margin-top: 25px;">
-                <!-- Nút bật tắt chế độ Chọn nhiều -->
-                <button id="toggle-multi-delete-btn" onclick="toggleMultiDelete()" style="background-color: #e74c3c; color: white; border: none; padding: 12px 22px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: background-color 0.3s;">Chọn nhiều [Tắt]</button>
-                <button class="buy-btn" onclick="triggerDeleteAction()" style="background-color: #c0392b;">Xoá</button>
-            </div>
-        </div>
-    </div>
-    <!-- 2.2 Modal xác nhận đồng ý / không đồng ý khi xóa -->
-    <div id="delete-confirm-modal" class="admin-overlay" style="z-index: 1002;">
-        <div class="admin-modal" style="max-width: 400px; text-align: center; padding: 25px;">
-            <p id="delete-confirm-text" style="font-size: 18px; font-weight: bold; color: #333; margin-bottom: 25px;">bạn chắc chắn muốn xoá những sản phẩm trên?</p>
-            <div style="display: flex; justify-content: center; gap: 15px;">
-                <button class="buy-btn" onclick="confirmDeleteProducts()" style="background-color: #c0392b; padding: 10px 25px;">Đồng ý</button>
-                <button class="buy-btn" onclick="closeAdminModal('delete-confirm-modal')" style="background-color: #7f8c8d; padding: 10px 25px;">Không</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. Modal Đăng Sản Phẩm mới -->
-    <div id="add-modal" class="admin-overlay">
-        <div class="admin-modal" style="max-width: 550px;">
-            <span class="close-btn" onclick="closeAdminModal('add-modal')">×</span>
-            <h2 style="color: #27ae60; text-align: center; margin-top:0;">Đăng sản phẩm mới</h2>
-
-            <!-- Chức năng 1: Nhập Tên -->
             <div class="admin-form-group">
-                <label>Tên sản phẩm (Tối thiểu 1 - tối đa 20 ký tự):</label>
-                <input type="text" id="add-prod-title" oninput="validateAddForm()">
-                <small id="add-title-error" style="color: red; font-size: 12px; font-weight: bold; display:block; margin-top:5px;"></small>
+                <label for="new-prod-category">Phân loại mặt hàng:</label>
+                <select id="new-prod-category" class="admin-select">
+                    <option value="glass">Thủy tinh</option>
+                    <option value="household">Gia dụng</option>
+                </select>
             </div>
 
-            <!-- Chức năng 2: Tải ảnh (.jpg, .png) -->
-            <div class="admin-form-group">
-                <label>Ảnh sản phẩm (.png, .jpg):</label>
-                <input type="file" id="add-prod-file" accept=".png, .jpg, .jpeg" onchange="handleAddImageSelect(event)" style="margin-bottom: 5px;">
-                <div id="add-img-preview-container" style="display:none; width: 100px; height: 100px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ccc; margin-top: 5px;">
-                    <img id="add-img-preview" style="width:100%; height:100%; object-fit: cover;">
-                </div>
-                <small id="add-img-error" style="color: red; font-size: 12px; font-weight: bold; display:block; margin-top:5px;"></small>
-            </div>
-
-            <!-- Chức năng 3: Nhập mô tả -->
-            <div class="admin-form-group">
-                <label>Nội dung chi tiết (Tối thiểu 10 - tối đa 250 ký tự):</label>
-                <textarea id="add-prod-details" style="height: 100px;" oninput="validateAddForm()"></textarea>
-                <small id="add-details-error" style="color: red; font-size: 12px; font-weight: bold; display:block; margin-top:5px;"></small>
-            </div>
-
-            <!-- Chức năng 4: Phân Loại -->
-            <div class="admin-form-group" style="margin-bottom: 25px;">
-                <label style="margin-bottom: 10px;">Loại sản phẩm:</label>
-                <div style="display: flex; gap: 20px;">
-                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: normal;">
-                        <input type="radio" name="add-prod-type" value="thuy-tinh" checked style="accent-color: #27ae60;"> Thủy tinh
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: normal;">
-                        <input type="radio" name="add-prod-type" value="gia-dung" style="accent-color: #27ae60;"> gia dụng
-                    </label>
-                </div>
-            </div>
-
-            <div style="display: flex; justify-content: flex-end;">
-                <button class="buy-btn" id="confirm-add-btn" onclick="submitAddProduct()" style="background-color: #27ae60;" disabled>Confirm</button>
+            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                <button class="buy-btn" style="background-color: #27ae60;" onclick="confirmAddProduct()">Confirm</button>
             </div>
         </div>
     </div>
-
-    <!-- ========================================================
-         KẾT THÚC CÁC POPUP MODAL MỚI PHỤC VỤ CHỨC NĂNG QUẢN TRỊ
-         ======================================================== -->
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -1239,14 +1416,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Danh sách 5 sản phẩm THỰC TẾ mặc định của cửa hàng
+        // Danh sách 5 sản phẩm THỰC TẾ của cửa hàng mặc định
         const baseProductsData = [
             {
                 id: 1,
                 title: "HŨ VUÔNG NẮP CÀI",
                 img: "69.jpg",
                 views: 0,
-                category: "thuy-tinh",
+                category: "glass",
                 details: `500ml: (56k/c) (Combo 6: 52k/c) (1 thùng: 25k/c)<br>
                         750ml: (61k/c) (Combo 6: 57.500k/c) (1 thùng: 26k/c)<br>
                         1000ml: (66k/c) (Combo 6: 62.500k/c) (1 thùng: 29.500k/c)<br>
@@ -1262,7 +1439,7 @@
                 title: "Chai Dẹt Thủy Tinh",
                 img: "1.jpg",
                 views: 0,
-                category: "thuy-tinh",
+                category: "glass",
                 details: `100ml: (17k/c) (Combo 6: 12.500k/c) (1 thùng: 7.500/C)<br>
                         200ml: (19k/c) (Combo 6: 13.800k/c) (1 thùng: 8.500/C)<br>
                         250ml: (21k/c) (Combo 6: 15.600k/c) (1 thùng: 8.500/C)<br>
@@ -1277,7 +1454,7 @@
                 title: "Chai dây 300ml - 500ml",
                 img: "2.jpg",
                 views: 0,
-                category: "thuy-tinh",
+                category: "glass",
                 details: `Lấy lẻ 1 bình (300ml - 500ml) : (20.500k/bình - 23.800k/chai)<br><br>
                         Combo 6 bình (300ml - 500ml): (15.500k/bình - 18.800k/chai)<br><br>
                         Sỉ 1 thùng (100 bình) (300ml - 500ml) : (8.800k/bình - 10.500k/bình)<br>
@@ -1290,7 +1467,7 @@
                 title: "Chai sữa 250ml - 500ml - 1000ml",
                 img: "3.jpg",
                 views: 0,
-                category: "thuy-tinh",
+                category: "glass",
                 details: `Giá tận nhà máy không qua trung gian. Hàng có sẵn tại kho, mua càng nhiều, giá càng rẻ:<br><br>
                         200ml: (17k/c) (combo 6-12: 12.000đ/c) (thùng 105c: 6,500k/c)<br>
                         250ml: (18k/c) (combo 6-12: 12.500đ/c) (thùng 105c: 7.200k/c)<br>
@@ -1305,7 +1482,7 @@
                 title: "HŨ THỦY TINH VUÔNG LÙN",
                 img: "4.jpg",
                 views: 0,
-                category: "thuy-tinh",
+                category: "glass",
                 details: `Hũ 300ml: (23k/hũ) (Combo 6: 18.200k/hũ) (1 thùng: 8.900k/hũ)<br><br>
                         Hũ 500ml: (27k/hũ) (Combo 6: 21.500k/hũ) (1 thùng: 10.200k/hũ)<br>
                         <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
@@ -1316,70 +1493,57 @@
 
         let productsData = [];
         let currentSearchKeyword = "";
+        let isAdminMode = false;
+
         const productsRef = ref(db, 'products');
-
-        // Lấy dữ liệu Real-time từ Firebase
+        
         onValue(productsRef, (snapshot) => {
-            const data = snapshot.val();
+            const data = snapshot.val() || {};
             
-            // Nếu Firebase trống, seed lại 5 sản phẩm mẫu mặc định ban đầu
-            if (!data) {
-                const seedObj = {};
-                baseProductsData.forEach(p => {
-                    seedObj[p.id] = p;
-                });
-                update(productsRef, seedObj);
-                return;
-            }
+            // Đồng bộ dữ liệu cứng lên Firebase nếu trống, hoặc bảo toàn các thay đổi khác
+            baseProductsData.forEach(p => {
+                if (!data[p.id]) {
+                    update(ref(db, 'products/' + p.id), p);
+                } else if (data[p.id].title !== p.title && !data[p.id].customEdited) {
+                    // Cập nhật đè nếu có sự sai lệch thông tin và quản trị viên chưa trực tiếp chỉnh sửa
+                    update(ref(db, 'products/' + p.id), {
+                        title: p.title,
+                        img: p.img,
+                        details: p.details,
+                        category: p.category || "glass"
+                    });
+                }
+            });
 
-            // Chuyển đối tượng thành mảng và sắp xếp theo ID tăng dần
-            productsData = Object.values(data).sort((a, b) => a.id - b.id);
+            // Map dữ liệu Realtime Database thành mảng xử lý trực quan
+            productsData = Object.keys(data).map(key => {
+                return {
+                    id: parseInt(key),
+                    ...data[key]
+                };
+            }).sort((a, b) => a.id - b.id);
 
-            // Cập nhật lại toàn bộ giao diện dựa trên dữ liệu thật
             renderHomeProducts();
             renderRanking();
             renderProducts();
             renderGlassCategory();
-            renderHousewareCategory();
-
-            // Nếu các menu admin đang mở, cũng tự động làm mới theo thời gian thực (realtime)
-            if (document.getElementById('edit-modal').style.display === 'flex') {
-                filterEditProducts();
-            }
-            if (document.getElementById('delete-modal').style.display === 'flex') {
-                renderDeleteProducts();
-            }
+            renderHouseholdCategory();
         });
 
-        // Hàm helper để render hình ảnh sản phẩm có thuộc tính vị trí / phóng to của Admin
-        function getProductImgHTML(p, customOnClick = "") {
-            const clickAction = customOnClick ? customOnClick : `openModal(${p.id})`;
-            const style = `transform: scale(${p.zoom || 1}) translate(${p.offsetX || 0}px, ${p.offsetY || 0}px); object-fit: cover;`;
-            return `
-                <div class="product-card-img-container">
-                    <img src="${p.img}" alt="${p.title}" style="${style}" onclick="${clickAction}">
-                </div>
-            `;
-        }
-
+        // ----------------- RENDER CÁC TRANG DIỆN MẠO CHÍNH -----------------
         window.renderHomeProducts = function() {
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
-            const householdContainer = document.getElementById('household-products-container');
             
-            // Các sản phẩm mới: Lấy 4 sản phẩm vừa đăng có ID lớn nhất
-            const newProducts = [...productsData].sort((a, b) => b.id - a.id).slice(0, 4);
-            
-            // Các đồ thủy tinh: lọc sản phẩm có category là thuy-tinh
-            const glassProducts = productsData.filter(p => p.category !== 'gia-dung').slice(0, 5);
-
-            // Các đồ gia dụng: lọc sản phẩm có category là gia-dung
-            const householdProducts = productsData.filter(p => p.category === 'gia-dung');
+            const newProducts = [...productsData].reverse().slice(0, 4);
+            const glassProducts = productsData.filter(p => p.category === "glass").slice(0, 5);
             
             const generateHTML = (products) => products.map(p => `
                 <div class="product-card">
                     <div class="view-count">👁️ ${p.views}</div>
-                    ${getProductImgHTML(p)}
+                    <div style="overflow: hidden; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center;">
+                        <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})" style="${p.imgTransform || ''}">
+                    </div>
                     <div class="product-info">
                         <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
                     </div>
@@ -1388,55 +1552,52 @@
 
             if(newContainer) newContainer.innerHTML = generateHTML(newProducts);
             if(glassContainer) glassContainer.innerHTML = generateHTML(glassProducts);
-
-            if(householdContainer) {
-                if(householdProducts.length > 0) {
-                    householdContainer.innerHTML = generateHTML(householdProducts);
-                } else {
-                    householdContainer.innerHTML = `<div class="empty-message">Chưa cập nhật 🥲</div>`;
-                }
-            }
         }
 
         window.renderGlassCategory = function() {
             const container = document.getElementById('glass-category-container');
             if (!container) return;
 
-            const glassCategoryProducts = productsData.filter(p => p.category !== 'gia-dung');
+            const glassCategoryProducts = productsData.filter(p => p.category === "glass");
             
-            if(glassCategoryProducts.length > 0) {
-                container.innerHTML = glassCategoryProducts.map(p => `
-                    <div class="product-card" style="margin: 15px;">
-                        <div class="view-count">👁️ ${p.views}</div>
-                        ${getProductImgHTML(p)}
-                        <div class="product-info">
-                            <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
-                        </div>
+            container.innerHTML = glassCategoryProducts.map(p => `
+                <div class="product-card" style="margin: 15px;">
+                    <div class="view-count">👁️ ${p.views}</div>
+                    <div style="overflow: hidden; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center;">
+                        <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})" style="${p.imgTransform || ''}">
                     </div>
-                `).join('');
-            } else {
-                container.innerHTML = `<div class="empty-message">Chưa cập nhật 🥲</div>`;
-            }
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        window.renderHousewareCategory = function() {
-            const container = document.getElementById('houseware-category-container');
+        window.renderHouseholdCategory = function() {
+            const container = document.getElementById('household-category-container');
+            const homeHouseContainer = document.getElementById('household-products-container');
             if (!container) return;
 
-            const householdCategoryProducts = productsData.filter(p => p.category === 'gia-dung');
-
-            if (householdCategoryProducts.length > 0) {
-                container.innerHTML = householdCategoryProducts.map(p => `
-                    <div class="product-card" style="margin: 15px;">
-                        <div class="view-count">👁️ ${p.views}</div>
-                        ${getProductImgHTML(p)}
-                        <div class="product-info">
-                            <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
-                        </div>
+            const householdProducts = productsData.filter(p => p.category === "household");
+            
+            const generateHTML = householdProducts.map(p => `
+                <div class="product-card" style="margin: 15px;">
+                    <div class="view-count">👁️ ${p.views}</div>
+                    <div style="overflow: hidden; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center;">
+                        <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})" style="${p.imgTransform || ''}">
                     </div>
-                `).join('');
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
+                    </div>
+                </div>
+            `).join('');
+
+            if (householdProducts.length === 0) {
+                container.innerHTML = `<div class="empty-message">Đồ Gia Dụng<br>Đang Cập Nhật 🥲</div>`;
+                if(homeHouseContainer) homeHouseContainer.innerHTML = `<div class="empty-message">Chưa cập nhật 🥲</div>`;
             } else {
-                container.innerHTML = `<div class="empty-message">Đang Cập Nhật 🥲</div>`;
+                container.innerHTML = generateHTML;
+                if(homeHouseContainer) homeHouseContainer.innerHTML = generateHTML;
             }
         }
 
@@ -1449,21 +1610,18 @@
             if (sorted.length > 0) podiumOrder.push({ ...sorted[0], rank: 1, stars: '⭐⭐⭐', label: 'Top 1' });
             if (sorted.length > 2) podiumOrder.push({ ...sorted[2], rank: 3, stars: '⭐', label: 'Top 3' });
 
-            rankingContainer.innerHTML = podiumOrder.map(p => {
-                const imgStyle = `transform: scale(${p.zoom || 1}) translate(${p.offsetX || 0}px, ${p.offsetY || 0}px); object-fit: cover; width: 100%; height: 100%;`;
-                return `
-                    <div class="podium-item rank-${p.rank}">
-                        <div class="podium-img-wrapper" style="overflow: hidden; border-radius: 50%;">
-                            <img src="${p.img}" class="podium-img" style="${imgStyle}" alt="${p.title}">
-                            <div class="podium-stars" style="color: gold;">${p.stars}</div>
-                        </div>
-                        <div class="podium-bar">
-                            ${p.label}
-                            <span>${p.views} lượt xem</span>
-                        </div>
+            rankingContainer.innerHTML = podiumOrder.map(p => `
+                <div class="podium-item rank-${p.rank}">
+                    <div class="podium-img-wrapper">
+                        <img src="${p.img}" class="podium-img" alt="${p.title}" style="${p.imgTransform || ''}">
+                        <div class="podium-stars" style="color: gold;">${p.stars}</div>
                     </div>
-                `;
-            }).join('');
+                    <div class="podium-bar">
+                        ${p.label}
+                        <span>${p.views} lượt xem</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
         window.renderProducts = function() {
@@ -1486,7 +1644,9 @@
                 container.innerHTML = sortedProducts.map(p => `
                     <div class="product-card">
                         <div class="view-count">👁️ ${p.views}</div>
-                        ${getProductImgHTML(p)}
+                        <div style="overflow: hidden; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center;">
+                            <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})" style="${p.imgTransform || ''}">
+                        </div>
                         <div class="product-info">
                             <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
                         </div>
@@ -1495,14 +1655,14 @@
             }
         }
 
-        const views = ['home-view', 'products-view', '1-view', '2-view', 'empty-view', 'admin-workspace'];
+        const views = ['home-view', 'products-view', '1-view', '2-view', 'empty-view', 'admin-view'];
         window.showView = function(viewId) {
             views.forEach(id => {
                 const element = document.getElementById(id);
                 if(element) element.classList.remove('active');
             });
-            const target = document.getElementById(viewId);
-            if(target) target.classList.add('active');
+            const activeElement = document.getElementById(viewId);
+            if(activeElement) activeElement.classList.add('active');
         }
 
         document.getElementById('search-bar').addEventListener('input', function(e) {
@@ -1535,10 +1695,7 @@
                 });
 
                 modalImg.src = product.img;
-                // Áp dụng định vị ảnh khi xem modal chi tiết
-                modalImg.style.transform = `scale(${product.zoom || 1}) translate(${product.offsetX || 0}px, ${product.offsetY || 0}px)`;
-                modalImg.style.objectFit = 'cover';
-                
+                modalImg.style.cssText = product.imgTransform || "transform: scale(1) translate(0px, 0px);";
                 modalTitle.innerText = product.title;
                 modalBody.innerHTML = product.details;
                 modalOverlay.style.display = 'flex';
@@ -1562,465 +1719,448 @@
         }
 
 
-        // =========================================================================
-        // JAVASCRIPT: THIẾT LẬP ĐĂNG NHẬP, MÃ HÓA SHA-256 VÀ HỆ THỐNG ADMIN CHUYÊN SÂU
-        // =========================================================================
-
-        // Hàm băm mật mã hóa SHA-256 nội bộ (Không cần thư viện ngoài)
-        async function hashSHA256(str) {
-            const utf8 = new TextEncoder().encode(str);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        // Bản băm đã mã hóa sẵn (An toàn tuyệt đối trước Inspect HTML)
-        // Hoangshop1995 -> 86134b22c7482f3ef423bc54df6663f7215cc7552fc8d689255a401b54b2b9f3
-        // Trang1995     -> 6cb5f98bbcd3ef5f2066d7fa311cf53259972b9a7c31d5eb85bf3f8e562372f8
-        const secureUserHash = "86134b22c7482f3ef423bc54df6663f7215cc7552fc8d689255a401b54b2b9f3";
-        const securePassHash = "6cb5f98bbcd3ef5f2066d7fa311cf53259972b9a7c31d5eb85bf3f8e562372f8";
+        // =========================================================
+        // CODE LOGIC QUẢN TRỊ VIÊN (ADMIN CONTROL CORE)
+        // =========================================================
 
         let loginAttempts = 0;
-        let isAdminLoggedIn = false;
-        let isInAdminMode = false;
 
-        window.selectLoginMode = function(mode) {
-            if (mode === 'admin') {
-                document.getElementById('entry-step-1').style.display = 'none';
-                document.getElementById('entry-step-2').style.display = 'block';
-            } else {
-                closeEntryModal();
-            }
+        window.openLoginForm = function() {
+            document.getElementById('initial-choice-modal').style.display = 'none';
+            document.getElementById('login-form-modal').style.display = 'flex';
         }
 
-        window.closeEntryModal = function() {
-            document.getElementById('entry-modal').style.display = 'none';
+        window.closeLoginForm = function() {
+            document.getElementById('login-form-modal').style.display = 'none';
+            document.getElementById('initial-choice-modal').style.display = 'flex';
         }
 
-        // Hàm Đăng Nhập Hệ Thống
-        window.submitAdminLogin = async function() {
-            const userInp = document.getElementById('admin-user').value.trim();
-            const passInp = document.getElementById('admin-pass').value.trim();
+        window.guestLogin = function() {
+            document.getElementById('initial-choice-modal').style.display = 'none';
+            document.getElementById('login-form-modal').style.display = 'none';
+        }
 
-            const userHash = await hashSHA256(userInp);
-            const passHash = await hashSHA256(passInp);
+        // Tạo chuỗi Hash SHA-256 từ ký tự đầu vào để bảo mật
+        async function getSHA256Hash(string) {
+            const utf8 = new TextEncoder().encode(string);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(bytes => bytes.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
 
-            if (userHash === secureUserHash && passHash === securePassHash) {
-                alert("Chào mừng Admin! Bạn đã đăng nhập thành công.");
-                isAdminLoggedIn = true;
-                document.getElementById('admin-bubble').style.display = 'flex'; // Hiện nút dấu cộng màu đỏ
-                closeEntryModal();
+        // Xử lý nộp tài khoản / mật khẩu
+        window.handleLoginSubmit = async function() {
+            const userInp = document.getElementById('login-username').value.trim();
+            const passInp = document.getElementById('login-password').value;
+
+            const hashedUser = await getSHA256Hash(userInp);
+            const hashedPass = await getSHA256Hash(passInp);
+
+            // Hoangshop1995 -> 16bbf64e6e0b42ae0bc82da85fce7e99456e77da7ef11c269962e2aba9a86eb8
+            // Trang1995     -> fe411bddcb413f902b9f94af46504b876f0896d5caa3b608f914e5603892c005
+            if (hashedUser === "16bbf64e6e0b42ae0bc82da85fce7e99456e77da7ef11c269962e2aba9a86eb8" && 
+                hashedPass === "fe411bddcb413f902b9f94af46504b876f0896d5caa3b608f914e5603892c005") {
+                
+                alert("Đăng nhập với quyền Quản trị viên thành công! Bong bóng cài đặt đã được kích hoạt.");
+                document.getElementById('login-form-modal').style.display = 'none';
+                document.getElementById('admin-btn-floating').style.display = 'flex';
             } else {
                 loginAttempts++;
-                const errorMsg = document.getElementById('login-error-msg');
                 if (loginAttempts >= 3) {
-                    alert("Sai quá 3 lần! Hệ thống tự động truy cập chế độ Khách Hàng.");
-                    closeEntryModal();
+                    alert("Bạn đã nhập sai thông tin quá 3 lần! Tự động chuyển hướng sang tư cách Khách Hàng.");
+                    guestLogin();
                 } else {
-                    errorMsg.innerText = `Thông tin đăng nhập không chính xác! (Lần thử ${loginAttempts}/3)`;
+                    alert(`Sai tài khoản hoặc mật khẩu! Bạn còn lại ${3 - loginAttempts} lần thử.`);
                 }
             }
         }
 
-        // Vào mục ẩn Admin
-        window.openAdminSection = function() {
-            isInAdminMode = true;
-            document.querySelector('.search-container').style.display = 'none'; // Ẩn thanh tìm kiếm
-            showView('admin-workspace');
+        // Vào vùng quyền ẩn Admin
+        window.enterAdminMode = function() {
+            isAdminMode = true;
+            document.querySelector('.search-container').style.display = 'none';
+            window.showView('admin-view');
         }
 
-        // Thoát giao diện Admin trở lại web
-        window.exitAdminMode = function() {
-            isInAdminMode = false;
-            document.querySelector('.search-container').style.display = 'block'; // Hiện lại thanh tìm kiếm
-            showView('home-view');
-        }
-
-        // Xử lý sự kiện nhấn vào Logo
+        // Click Logo để đóng và thoát chế độ admin
         window.handleLogoClick = function() {
-            if (isInAdminMode) {
-                exitAdminMode(); // Logo dùng để thoát admin để quay lại web
+            if (isAdminMode) {
+                isAdminMode = false;
+                document.querySelector('.search-container').style.display = 'block';
+                window.showView('home-view');
             } else {
-                showView('home-view');
+                window.showView('home-view');
             }
         }
 
-        // Trạng thái Quản Lý Admin Modals
-        window.openAdminModal = function(id) {
-            document.getElementById(id).style.display = 'flex';
+
+        // ------------------ 1, CHỨC NĂNG: CHỈNH SỬA SẢN PHẨM ------------------
+        let currentEditSearchQuery = "";
+        let selectedProductToEdit = null;
+
+        window.openEditProductsModal = function() {
+            document.getElementById('edit-products-modal').style.display = 'flex';
+            renderEditList();
         }
 
-        window.closeAdminModal = function(id) {
-            document.getElementById(id).style.display = 'none';
+        window.closeEditProductsModal = function() {
+            document.getElementById('edit-products-modal').style.display = 'none';
         }
 
-        // ============================================
-        // ADMIN CHỨC NĂNG 1: CHỈNH SỬA SẢN PHẨM
-        // ============================================
-        let currentEditProduct = null;
-        let tempBase64Image = null;
-        let tempOffsetX = 0;
-        let tempOffsetY = 0;
-        let tempZoom = 1;
-
-        window.openEditMenu = function() {
-            openAdminModal('edit-modal');
-            filterEditProducts();
+        window.handleEditSearch = function(e) {
+            currentEditSearchQuery = e.target.value.toLowerCase();
+            renderEditList();
         }
 
-        // Lọc tìm kiếm sản phẩm trong menu Admin Chỉnh sửa
-        window.filterEditProducts = function() {
-            const keyword = document.getElementById('edit-search-bar').value.toLowerCase();
-            const listContainer = document.getElementById('edit-product-list');
-            
-            const filtered = productsData.filter(p => p.title.toLowerCase().includes(keyword));
-            
-            listContainer.innerHTML = filtered.map(p => `
-                <div onclick="selectProductToEdit(${p.id})" style="display:flex; align-items:center; gap:15px; padding:10px; border:1.5px solid #eee; border-radius:12px; cursor:pointer; background:#fafafa; transition:all 0.2s;">
-                    <img src="${p.img}" style="width:50px; height:50px; object-fit:cover; border-radius:8px;">
-                    <div style="text-align: left;">
-                        <div style="font-weight:bold; color:#d35400;">${p.title}</div>
-                        <div style="font-size:12px; color:#7f8c8d;">ID: ${p.id} | Danh mục: ${p.category === 'gia-dung' ? 'Gia dụng' : 'Thủy tinh'}</div>
+        window.renderEditList = function() {
+            const container = document.getElementById('edit-products-list');
+            if(!container) return;
+
+            let filtered = [...productsData];
+            if(currentEditSearchQuery) {
+                filtered = filtered.filter(p => p.title.toLowerCase().includes(currentEditSearchQuery));
+            }
+
+            container.innerHTML = filtered.map(p => `
+                <div class="admin-prod-card" onclick="openSingleEditModal(${p.id})">
+                    <div style="overflow: hidden; width: 80px; height: 80px; margin: 0 auto 8px auto; display: flex; justify-content: center; align-items: center;">
+                        <img src="${p.img}" alt="${p.title}" style="${p.imgTransform || ''}">
                     </div>
+                    <p>${p.title}</p>
                 </div>
             `).join('');
         }
 
-        document.getElementById('edit-search-bar').addEventListener('input', filterEditProducts);
+        // Menu con chỉnh chi tiết và vị trí của sản phẩm A
+        window.openSingleEditModal = function(id) {
+            selectedProductToEdit = productsData.find(p => p.id === id);
+            if(!selectedProductToEdit) return;
 
-        // Click sản phẩm A sẽ mở menu chi tiết chỉnh sửa
-        window.selectProductToEdit = function(id) {
-            const product = productsData.find(p => p.id === id);
-            if (!product) return;
-
-            currentEditProduct = product;
-            tempBase64Image = product.img;
-            tempOffsetX = product.offsetX || 0;
-            tempOffsetY = product.offsetY || 0;
-            tempZoom = product.zoom || 1;
-
-            document.getElementById('edit-detail-title').value = product.title;
-            // Thay thế thẻ <br> thành xuống dòng thường để thân thiện với người soạn thảo
-            document.getElementById('edit-detail-desc').value = product.details.replace(/<br\s*\/?>/gi, '\n');
+            document.getElementById('edit-prod-title').value = selectedProductToEdit.title;
+            document.getElementById('edit-prod-details').value = selectedProductToEdit.details.replace(/<br>/g, "\n");
             
-            const detailPreview = document.getElementById('edit-detail-img-preview');
-            detailPreview.src = product.img;
-            detailPreview.style.transform = `scale(${tempZoom}) translate(${tempOffsetX}px, ${tempOffsetY}px)`;
+            const previewImg = document.getElementById('edit-img-preview');
+            previewImg.src = selectedProductToEdit.img;
 
-            closeAdminModal('edit-modal');
-            openAdminModal('edit-detail-modal');
+            // Đọc lại toạ độ cũ từ CSS transform để gán vào slider
+            let scaleVal = 1;
+            let xVal = 0;
+            let yVal = 0;
+            if (selectedProductToEdit.imgTransform) {
+                const scaleMatch = selectedProductToEdit.imgTransform.match(/scale\(([^)]+)\)/);
+                const translateMatch = selectedProductToEdit.imgTransform.match(/translate\(([^,]+)px,\s*([^)]+)px\)/);
+                if (scaleMatch) scaleVal = parseFloat(scaleMatch[1]);
+                if (translateMatch) {
+                    xVal = parseInt(translateMatch[1]);
+                    yVal = parseInt(translateMatch[2]);
+                }
+            }
+
+            document.getElementById('edit-zoom-slider').value = scaleVal;
+            document.getElementById('edit-x-slider').value = xVal;
+            document.getElementById('edit-y-slider').value = yVal;
+            previewImg.style.transform = selectedProductToEdit.imgTransform || "scale(1) translate(0px, 0px)";
+
+            document.getElementById('save-single-edit-btn').onclick = function() {
+                saveProductEditChanges(id);
+            }
+
+            document.getElementById('edit-single-product-modal').style.display = 'flex';
         }
 
-        // Mở cửa sổ vẽ khung điều chỉnh vị trí hình ảnh
-        window.openImageAdjustModal = function() {
-            openAdminModal('image-adjust-modal');
-            const adjImg = document.getElementById('adjust-img-preview');
-            adjImg.src = tempBase64Image;
-            
-            document.getElementById('slider-offset-x').value = tempOffsetX;
-            document.getElementById('slider-offset-y').value = tempOffsetY;
-            document.getElementById('slider-zoom').value = tempZoom;
-            
-            applyImageTransform();
+        window.closeEditSingleProductModal = function() {
+            document.getElementById('edit-single-product-modal').style.display = 'none';
         }
 
-        // Kích hoạt click chọn file từ máy người dùng
-        window.triggerFileInput = function() {
-            document.getElementById('image-file-input').click();
+        window.triggerEditImgUpload = function() {
+            document.getElementById('edit-img-file-input').click();
         }
 
-        // Xử lý tệp tin tải lên, chỉ chấp nhận tệp định dạng JPG, PNG
-        window.handleImageFileSelect = function(event) {
-            const file = event.target.files[0];
+        // Định dạng đuôi ảnh hợp lệ PNG / JPG
+        window.handleEditImgSelected = function(e) {
+            const file = e.target.files[0];
             if (!file) return;
 
-            if (file.type !== "image/jpeg" && file.type !== "image/png") {
-                alert("Hệ thống chỉ tiếp nhận tệp định dạng .jpg hoặc .png!");
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!validTypes.includes(file.type)) {
+                alert("Chỉ cho phép chọn tệp hình ảnh định dạng PNG hoặc JPG!");
                 return;
             }
 
             const reader = new FileReader();
-            reader.onload = function(e) {
-                tempBase64Image = e.target.result;
-                document.getElementById('adjust-img-preview').src = tempBase64Image;
-                // Reset thanh căn chỉnh khi tải ảnh mới
-                document.getElementById('slider-offset-x').value = 0;
-                document.getElementById('slider-offset-y').value = 0;
-                document.getElementById('slider-zoom').value = 1;
-                applyImageTransform();
+            reader.onload = function(event) {
+                const previewImg = document.getElementById('edit-img-preview');
+                previewImg.src = event.target.result;
+                
+                // Khôi phục toạ độ slider về mặc định đối với ảnh mới
+                document.getElementById('edit-zoom-slider').value = 1;
+                document.getElementById('edit-x-slider').value = 0;
+                document.getElementById('edit-y-slider').value = 0;
+                previewImg.style.transform = "scale(1) translate(0px, 0px)";
             }
             reader.readAsDataURL(file);
         }
 
-        // Cập nhật vị trí ảnh thời gian thực khi kéo thanh trượt
-        window.applyImageTransform = function() {
-            const x = document.getElementById('slider-offset-x').value;
-            const y = document.getElementById('slider-offset-y').value;
-            const zoom = document.getElementById('slider-zoom').value;
-
-            const img = document.getElementById('adjust-img-preview');
-            img.style.transform = `scale(${zoom}) translate(${x}px, ${y}px)`;
+        // Cập nhật vị trí ảnh thời gian thực khi chỉnh thanh trượt
+        window.updateEditImgTransform = function() {
+            const scale = document.getElementById('edit-zoom-slider').value;
+            const x = document.getElementById('edit-x-slider').value;
+            const y = document.getElementById('edit-y-slider').value;
+            
+            document.getElementById('edit-img-preview').style.transform = `scale(${scale}) translate(${x}px, ${y}px)`;
         }
 
-        // Xác nhận vị trí căn chỉnh tạm thời cho ảnh
-        window.saveImageAdjust = function() {
-            tempOffsetX = parseInt(document.getElementById('slider-offset-x').value);
-            tempOffsetY = parseInt(document.getElementById('slider-offset-y').value);
-            tempZoom = parseFloat(document.getElementById('slider-zoom').value);
+        // Lưu thông tin chỉnh sửa (Người A sửa, Người B nhìn thấy thông qua Firebase)
+        window.saveProductEditChanges = function(id) {
+            const title = document.getElementById('edit-prod-title').value.trim();
+            const details = document.getElementById('edit-prod-details').value.replace(/\n/g, "<br>");
+            const imgBase64 = document.getElementById('edit-img-preview').src;
 
-            const detailPreview = document.getElementById('edit-detail-img-preview');
-            detailPreview.src = tempBase64Image;
-            detailPreview.style.transform = `scale(${tempZoom}) translate(${tempOffsetX}px, ${tempOffsetY}px)`;
+            const scale = document.getElementById('edit-zoom-slider').value;
+            const x = document.getElementById('edit-x-slider').value;
+            const y = document.getElementById('edit-y-slider').value;
+            const imgTransform = `transform: scale(${scale}) translate(${x}px, ${y}px);`;
 
-            closeAdminModal('image-adjust-modal');
-        }
-
-        // Nhấn nút lưu cuối cùng để thay đổi dữ liệu thời gian thực lên Firebase
-        document.getElementById('save-edit-btn').onclick = function() {
-            if (!currentEditProduct) return;
-
-            const updatedTitle = document.getElementById('edit-detail-title').value.trim();
-            const rawDetails = document.getElementById('edit-detail-desc').value.trim();
-            // Đổi lại các dòng trống thành thẻ <br> khi lưu cơ sở dữ liệu
-            const formattedDetails = rawDetails.replace(/\n/g, '<br>');
-
-            if (!updatedTitle) {
-                alert("Vui lòng nhập tên sản phẩm!");
+            if (!title) {
+                alert("Tên sản phẩm không được trống!");
                 return;
             }
 
-            const targetRef = ref(db, 'products/' + currentEditProduct.id);
-            update(targetRef, {
-                title: updatedTitle,
-                details: formattedDetails,
-                img: tempBase64Image,
-                offsetX: tempOffsetX,
-                offsetY: tempOffsetY,
-                zoom: tempZoom
+            const prodRef = ref(db, 'products/' + id);
+            update(prodRef, {
+                title: title,
+                details: details,
+                img: imgBase64,
+                imgTransform: imgTransform,
+                customEdited: true // Đánh dấu quản trị viên đã chỉnh sửa
             }).then(() => {
-                alert("Đã cập nhật chỉnh sửa sản phẩm thành công!");
-                closeAdminModal('edit-detail-modal');
-            }).catch(error => {
-                alert("Đã có lỗi xảy ra khi lưu thay đổi: " + error);
+                alert("Chỉnh sửa sản phẩm thành công!");
+                closeEditSingleProductModal();
+                closeEditProductsModal();
+            }).catch(err => {
+                alert("Lỗi khi cập nhật dữ liệu: " + err.message);
             });
         }
 
 
-        // ============================================
-        // ADMIN CHỨC NĂNG 2: XÓA SẢN PHẨM
-        // ============================================
-        let isMultiDeleteMode = false;
-        let selectedDeleteIds = [];
+        // ------------------ 2, CHỨC NĂNG: XOÁ SẢN PHẨM ------------------
+        let isMultiSelect = false;
+        let selectedProductIdsToDelete = [];
 
-        window.openDeleteMenu = function() {
-            isMultiDeleteMode = false;
-            selectedDeleteIds = [];
-            const btn = document.getElementById('toggle-multi-delete-btn');
-            btn.innerText = "Chọn nhiều [Tắt]";
-            btn.style.backgroundColor = "#e74c3c";
-            
-            openAdminModal('delete-modal');
-            renderDeleteProducts();
+        window.openDeleteProductsModal = function() {
+            document.getElementById('delete-products-modal').style.display = 'flex';
+            renderDeleteList();
         }
 
-        // Bật / tắt chức năng chọn nhiều
-        window.toggleMultiDelete = function() {
-            isMultiDeleteMode = !isMultiDeleteMode;
-            selectedDeleteIds = [];
-            const btn = document.getElementById('toggle-multi-delete-btn');
-            
-            if (isMultiDeleteMode) {
+        window.closeDeleteProductsModal = function() {
+            document.getElementById('delete-products-modal').style.display = 'none';
+        }
+
+        window.toggleMultiSelectMode = function() {
+            isMultiSelect = !isMultiSelect;
+            const btn = document.getElementById('toggle-multi-select-btn');
+            if(isMultiSelect) {
                 btn.innerText = "Chọn nhiều [Bật]";
                 btn.style.backgroundColor = "#2ecc71";
             } else {
                 btn.innerText = "Chọn nhiều [Tắt]";
                 btn.style.backgroundColor = "#e74c3c";
+                selectedProductIdsToDelete = [];
+                renderDeleteList();
             }
-            renderDeleteProducts();
         }
 
-        window.renderDeleteProducts = function() {
-            const grid = document.getElementById('delete-product-grid');
-            grid.innerHTML = productsData.map(p => {
-                const isSelected = selectedDeleteIds.includes(p.id);
-                const selectStyle = isSelected ? 'border: 3px solid #c0392b; box-shadow: 0 0 10px rgba(192, 57, 43, 0.4); transform: scale(0.96);' : 'border: 1px solid #eee;';
-                
+        window.renderDeleteList = function() {
+            const container = document.getElementById('delete-products-list');
+            if(!container) return;
+
+            container.innerHTML = productsData.map(p => {
+                const isSelected = selectedProductIdsToDelete.includes(p.id);
                 return `
-                    <div onclick="handleDeleteProductSelect(${p.id})" style="background:#fff; border-radius:12px; padding:6px; text-align:center; cursor:pointer; position:relative; transition: all 0.2s; ${selectStyle}">
-                        <div style="width:100%; height:90px; overflow:hidden; border-radius:8px;">
-                            <img src="${p.img}" style="width:100%; height:100%; object-fit:cover; transform: scale(${p.zoom || 1}) translate(${p.offsetX || 0}px, ${p.offsetY || 0}px);">
+                    <div class="admin-prod-card ${isSelected ? 'selected' : ''}" onclick="handleDeleteCardSelect(${p.id})">
+                        <div style="overflow: hidden; width: 80px; height: 80px; margin: 0 auto 8px auto; display: flex; justify-content: center; align-items: center;">
+                            <img src="${p.img}" alt="${p.title}" style="${p.imgTransform || ''}">
                         </div>
-                        <div style="font-size:12px; font-weight:bold; color:#333; margin-top:5px; height:16px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${p.title}</div>
+                        <p>${p.title}</p>
                     </div>
                 `;
             }).join('');
 
-            updateDeletePreviewStrip();
+            renderDeletePreviewSection();
         }
 
-        window.handleDeleteProductSelect = function(id) {
-            if (isMultiDeleteMode) {
-                if (selectedDeleteIds.includes(id)) {
-                    selectedDeleteIds = selectedDeleteIds.filter(x => x !== id);
+        window.handleDeleteCardSelect = function(id) {
+            if (isMultiSelect) {
+                const index = selectedProductIdsToDelete.indexOf(id);
+                if (index > -1) {
+                    selectedProductIdsToDelete.splice(index, 1);
                 } else {
-                    selectedDeleteIds.push(id);
+                    selectedProductIdsToDelete.push(id);
                 }
             } else {
-                selectedDeleteIds = [id];
+                selectedProductIdsToDelete = [id];
             }
-            renderDeleteProducts();
+            renderDeleteList();
         }
 
-        // Cập nhật dải hình ảnh xem trước phía dưới
-        window.updateDeletePreviewStrip = function() {
-            const previewContainer = document.getElementById('delete-preview-container');
-            const previewStrip = document.getElementById('delete-preview-strip');
-
-            if (isMultiDeleteMode && selectedDeleteIds.length > 0) {
-                previewContainer.style.display = 'block';
-                previewStrip.innerHTML = selectedDeleteIds.map(id => {
-                    const p = productsData.find(x => x.id === id);
-                    if (!p) return '';
-                    return `
-                        <div style="width:60px; height:60px; border-radius:8px; overflow:hidden; border:1px solid #ccc; flex-shrink:0;">
-                            <img src="${p.img}" style="width:100%; height:100%; object-fit:cover; transform: scale(${p.zoom || 1}) translate(${p.offsetX || 0}px, ${p.offsetY || 0}px);">
-                        </div>
-                    `;
-                }).join('');
-            } else {
-                previewContainer.style.display = 'none';
-                previewStrip.innerHTML = '';
-            }
-        }
-
-        window.triggerDeleteAction = function() {
-            if (selectedDeleteIds.length === 0) {
-                alert("Vui lòng chọn ít nhất một sản phẩm cần xóa!");
+        // Hiện dải ảnh xem trước những sản phẩm đã chọn ở dưới cùng
+        window.renderDeletePreviewSection = function() {
+            const previewSection = document.getElementById('delete-selected-preview');
+            const previewRow = document.getElementById('delete-preview-row');
+            
+            if (selectedProductIdsToDelete.length === 0) {
+                previewSection.style.display = 'none';
                 return;
             }
-            // Mở bảng xác nhận đồng ý / không
-            openAdminModal('delete-confirm-modal');
+
+            previewSection.style.display = 'block';
+            previewRow.innerHTML = selectedProductIdsToDelete.map(id => {
+                const item = productsData.find(p => p.id === id);
+                if(!item) return '';
+                return `
+                    <div style="width: 55px; height: 55px; overflow: hidden; border-radius: 6px; border: 2px solid #ddd; display: flex; justify-content: center; align-items: center;">
+                        <img src="${item.img}" style="${item.imgTransform || ''}">
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.triggerDeleteConfirm = function() {
+            if (selectedProductIdsToDelete.length === 0) {
+                alert("Vui lòng click chọn tối thiểu một sản phẩm để xoá!");
+                return;
+            }
+            document.getElementById('delete-confirm-modal').style.display = 'flex';
+        }
+
+        window.closeDeleteConfirmModal = function() {
+            document.getElementById('delete-confirm-modal').style.display = 'none';
         }
 
         window.confirmDeleteProducts = function() {
-            const promises = selectedDeleteIds.map(id => remove(ref(db, 'products/' + id)));
-            
+            const promises = selectedProductIdsToDelete.map(id => {
+                return remove(ref(db, 'products/' + id));
+            });
+
             Promise.all(promises).then(() => {
-                alert("Đã xóa sản phẩm thành công!");
-                selectedDeleteIds = [];
-                closeAdminModal('delete-confirm-modal');
-                closeAdminModal('delete-modal');
-            }).catch(error => {
-                alert("Lỗi xảy ra trong quá trình xóa dữ liệu: " + error);
+                alert("Xoá sản phẩm thành công!");
+                selectedProductIdsToDelete = [];
+                closeDeleteConfirmModal();
+                closeDeleteProductsModal();
+            }).catch(err => {
+                alert("Đã xảy ra lỗi khi xoá: " + err.message);
             });
         }
 
 
-        // ============================================
-        // ADMIN CHỨC NĂNG 3: ĐĂNG SẢN PHẨM MỚI
-        // ============================================
-        let addBase64Image = null;
-
-        window.openAddMenu = function() {
-            document.getElementById('add-prod-title').value = "";
-            document.getElementById('add-prod-details').value = "";
-            document.getElementById('add-prod-file').value = "";
-            document.getElementById('add-img-preview-container').style.display = "none";
-            
-            document.getElementById('add-title-error').innerText = "";
-            document.getElementById('add-img-error').innerText = "";
-            document.getElementById('add-details-error').innerText = "";
-
-            addBase64Image = null;
-            validateAddForm();
-            openAdminModal('add-modal');
+        // ------------------ 3, CHỨC NĂNG: ĐĂNG SẢN PHẨM ------------------
+        window.openAddProductModal = function() {
+            document.getElementById('add-product-modal').style.display = 'flex';
         }
 
-        window.handleAddImageSelect = function(event) {
-            const file = event.target.files[0];
-            const errorElement = document.getElementById('add-img-error');
-            const previewContainer = document.getElementById('add-img-preview-container');
-            const previewImg = document.getElementById('add-img-preview');
+        window.closeAddProductModal = function() {
+            document.getElementById('add-product-modal').style.display = 'none';
+        }
 
-            if (!file) {
-                addBase64Image = null;
-                validateAddForm();
+        window.triggerAddImgUpload = function() {
+            document.getElementById('add-img-file-input').click();
+        }
+
+        window.handleAddImgSelected = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!validTypes.includes(file.type)) {
+                alert("Tệp ảnh không hợp lệ! Vui lòng chọn tệp định dạng PNG hoặc JPG.");
                 return;
             }
 
-            if (file.type !== "image/jpeg" && file.type !== "image/png") {
-                errorElement.innerText = "Yêu cầu tải lên hình ảnh có đuôi mở rộng .jpg hoặc .png!";
-                addBase64Image = null;
-                previewContainer.style.display = "none";
-                validateAddForm();
-                return;
-            }
-
-            errorElement.innerText = "";
             const reader = new FileReader();
-            reader.onload = function(e) {
-                addBase64Image = e.target.result;
-                previewImg.src = addBase64Image;
-                previewContainer.style.display = "block";
-                validateAddForm();
+            reader.onload = function(event) {
+                const previewImg = document.getElementById('add-img-preview');
+                previewImg.src = event.target.result;
+                previewImg.style.display = 'block';
+                document.getElementById('add-dashed-label').style.display = 'none';
             }
             reader.readAsDataURL(file);
         }
 
-        window.validateAddForm = function() {
-            const title = document.getElementById('add-prod-title').value.trim();
-            const details = document.getElementById('add-prod-details').value.trim();
-            const confirmBtn = document.getElementById('confirm-add-btn');
+        // Nút Xác Nhận (Confirm) đăng sản phẩm mới
+        window.confirmAddProduct = function() {
+            const title = document.getElementById('new-prod-title').value.trim();
+            const details = document.getElementById('new-prod-details').value.trim().replace(/\n/g, "<br>");
+            const category = document.getElementById('new-prod-category').value;
+            const previewImg = document.getElementById('add-img-preview');
 
-            let isTitleValid = title.length >= 1 && title.length <= 20;
-            let isDetailsValid = details.length >= 10 && details.length <= 250;
-            let isImageValid = addBase64Image !== null;
-
-            // Hiển thị lỗi tức thì (Real-time feedback)
-            document.getElementById('add-title-error').innerText = (!isTitleValid && title.length > 0) ? "Độ dài tên sản phẩm chưa phù hợp (Yêu cầu 1 - 20 chữ)!" : "";
-            document.getElementById('add-details-error').innerText = (!isDetailsValid && details.length > 0) ? "Độ dài mô tả chưa phù hợp (Yêu cầu 10 - 250 chữ)!" : "";
-
-            confirmBtn.disabled = !(isTitleValid && isDetailsValid && isImageValid);
-        }
-
-        window.submitAddProduct = function() {
-            const title = document.getElementById('add-prod-title').value.trim();
-            const details = document.getElementById('add-prod-details').value.trim();
-            const selectedType = document.querySelector('input[name="add-prod-type"]:checked').value;
-
-            if (!addBase64Image || title.length < 1 || title.length > 20 || details.length < 10 || details.length > 250) {
-                alert("Xin vui lòng đảm bảo bạn đã cung cấp đúng và đủ 3 điều kiện!");
+            // Điều kiện 1: Tên sản phẩm tối thiểu 1 chữ, tối đa 20 chữ
+            if (title.length < 1 || title.length > 20) {
+                alert("Yêu cầu nhập Tên Sản Phẩm (Độ dài từ 1 đến tối đa 20 ký tự)!");
                 return;
             }
 
-            const newId = Date.now(); // Sử dụng timestamp làm ID duy nhất cho sản phẩm mới
-            const newProduct = {
-                id: newId,
-                title: title,
-                details: details.replace(/\n/g, '<br>'),
-                img: addBase64Image,
-                category: selectedType, // 'thuy-tinh' hoặc 'gia-dung'
-                views: 0,
-                offsetX: 0,
-                offsetY: 0,
-                zoom: 1
+            // Điều kiện 2: Bắt buộc tải ảnh lên từ máy
+            if (previewImg.style.display === 'none' || !previewImg.src) {
+                alert("Bạn bắt buộc phải tải tệp ảnh sản phẩm (PNG hoặc JPG) lên!");
+                return;
             }
 
-            update(ref(db, 'products/' + newId), newProduct).then(() => {
-                alert("Chúc mừng! Đăng sản phẩm mới lên website thành công!");
-                closeAdminModal('add-modal');
-            }).catch(error => {
-                alert("Đã xảy ra lỗi hệ thống: " + error);
+            // Điều kiện 3: Chi tiết tối thiểu 10 chữ, tối đa 250 chữ
+            const rawDetailsLength = details.replace(/<br>/g, "\n").length;
+            if (rawDetailsLength < 10 || rawDetailsLength > 250) {
+                alert("Yêu cầu nhập Nội dung chi tiết (Độ dài từ 10 đến tối đa 250 ký tự)!");
+                return;
+            }
+
+            // Tự động sinh ID số lớn nhất tiếp theo
+            const nextId = productsData.length > 0 ? Math.max(...productsData.map(p => p.id)) + 1 : 1;
+
+            const newProductObj = {
+                id: nextId,
+                title: title,
+                img: previewImg.src,
+                views: 0,
+                category: category,
+                details: details,
+                imgTransform: "transform: scale(1) translate(0px, 0px);",
+                customEdited: true
+            };
+
+            // Đưa lên Firebase Realtime Database
+            update(ref(db, 'products/' + nextId), newProductObj).then(() => {
+                alert("Đăng sản phẩm mới thành công! Hệ thống đã cập nhật vào chuyên mục tương ứng và chuyên mục Mới.");
+                // Reset form
+                document.getElementById('new-prod-title').value = "";
+                document.getElementById('new-prod-details').value = "";
+                previewImg.src = "";
+                previewImg.style.display = 'none';
+                document.getElementById('add-dashed-label').style.display = 'block';
+                closeAddProductModal();
+            }).catch(err => {
+                alert("Lỗi khi thêm sản phẩm: " + err.message);
             });
         }
 
-
-        // Kế thừa các điều khiển sự kiện click cửa sổ nền
+        // Tắt Modal Quản trị viên nhanh bằng click khoảng trống
         window.onclick = function(event) {
             if (event.target == modalOverlay) {
                 window.closeModal();
             }
+            if (event.target == document.getElementById('edit-products-modal')) {
+                closeEditProductsModal();
+            }
+            if (event.target == document.getElementById('edit-single-product-modal')) {
+                closeEditSingleProductModal();
+            }
+            if (event.target == document.getElementById('delete-products-modal')) {
+                closeDeleteProductsModal();
+            }
+            if (event.target == document.getElementById('add-product-modal')) {
+                closeAddProductModal();
+            }
         }
+
     </script>
 </body>
 </html>
