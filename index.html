@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huy Hoàng - Đồ Gia Dụng</title>
     <style>
-        /* (**) Phông nền vàng nhạt cho toàn bộ trang web */
         body {
-            background-color: #FFFDE7; /* Vàng nhạt */
+            background-color: #FFFDE7;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             color: #333;
         }
 
-        /* Phần Header: Chứa Logo và Thanh tìm kiếm */
         header {
             display: flex;
             justify-content: space-between;
@@ -27,14 +25,12 @@
             z-index: 100;
         }
 
-        /* 1. Góc trái trên đầu: Logo */
         .logo img {
             height: 70px;
             object-fit: contain;
             cursor: pointer;
         }
 
-        /* 2. Góc phải trên đầu: Thanh tìm kiếm */
         .search-container {
             position: relative;
         }
@@ -43,22 +39,20 @@
             padding: 12px 20px;
             font-size: 16px;
             border: 2px solid #e0e0e0;
-            border-radius: 30px; /* Bo tròn 4 góc */
+            border-radius: 30px;
             width: 200px;
             outline: none;
-            /* Animation kéo dãn như slime sử dụng cubic-bezier */
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             background-color: #f9f9f9;
         }
 
         #search-bar:focus {
-            width: 400px; /* Kéo dài khi ấn vào */
+            width: 400px;
             border-color: #FFC107;
             background-color: #fff;
             box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
         }
 
-        /* Phần Nội dung chính */
         main {
             padding: 40px;
             min-height: 70vh;
@@ -70,7 +64,6 @@
             gap: 30px;
         }
 
-        /* Thiết kế thẻ sản phẩm */
         .product-card {
             background: #fff;
             border-radius: 15px;
@@ -84,28 +77,34 @@
             transform: translateY(-5px);
         }
 
-        .product-card img {
+        .product-card > img {
             width: 100%;
-            height: auto;
+            height: 250px;
             object-fit: cover;
             border-bottom: 1px solid #eee;
         }
 
         .product-info {
             padding: 20px;
+            text-align: center;
         }
 
         .product-title {
             font-size: 20px;
             font-weight: bold;
             color: #d35400;
-            margin-top: 0;
-            margin-bottom: 15px;
+            margin: 0;
+            cursor: pointer;
+            transition: color 0.3s;
+            text-decoration: underline;
+        }
+
+        .product-title:hover {
+            color: #e67e22;
         }
 
         .product-details {
-            font-size: 15px;
-            line-height: 1.6;
+            display: none;
         }
 
         .contact-highlight {
@@ -114,7 +113,6 @@
             margin-top: 10px;
         }
 
-        /* Dòng chữ khi không tìm thấy sản phẩm */
         #no-product-msg {
             display: none;
             width: 100%;
@@ -125,7 +123,6 @@
             font-weight: bold;
         }
 
-        /* 3. Góc cuối bên phải: Nút liên hệ nổi */
         .floating-contact {
             position: fixed;
             bottom: 30px;
@@ -133,14 +130,14 @@
             display: flex;
             align-items: center;
             cursor: pointer;
-            z-index: 1000;
+            z-index: 99;
         }
 
         .contact-tooltip {
-            background-color: blue; /* Nền xanh nước biển */
-            color: yellow; /* Phông chữ màu vàng */
+            background-color: blue;
+            color: yellow;
             padding: 12px 20px;
-            border-radius: 20px; /* Bo tròn 4 góc */
+            border-radius: 20px;
             font-weight: bold;
             font-size: 16px;
             margin-right: 15px;
@@ -152,7 +149,6 @@
             box-shadow: 0 4px 10px rgba(0,0,255,0.2);
         }
 
-        /* Khi di chuột vào khu vực nút nổi sẽ hiện dòng chữ */
         .floating-contact:hover .contact-tooltip {
             opacity: 1;
             transform: translateX(0) scale(1);
@@ -175,18 +171,109 @@
             transform: scale(1.1);
         }
 
-        /* SVG Icon hình người dùng (giống windows) */
         .user-icon svg {
             width: 35px;
             height: 35px;
             fill: #333;
         }
 
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-height: 85vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #c0392b;
+        }
+
+        .modal-img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            object-fit: contain;
+            max-height: 250px;
+        }
+
+        .modal-title {
+            color: #d35400;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-body {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        .buy-btn {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .buy-btn:hover {
+            background-color: #0000cd;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header chứa Logo và Tìm kiếm -->
     <header>
         <div class="logo">
             <img src="67.jpg" alt="Logo">
@@ -196,14 +283,12 @@
         </div>
     </header>
 
-    <!-- Nội dung chính chứa các sản phẩm -->
     <main>
         <div class="product-grid" id="product-container">
-            <!-- Sản phẩm 1 -->
             <div class="product-card">
                 <img src="69.jpg" alt="HŨ VUÔNG NẮP CÀI">
                 <div class="product-info">
-                    <h2 class="product-title">HŨ VUÔNG NẮP CÀI</h2>
+                    <h2 class="product-title" onclick="openModal(this)">HŨ VUÔNG NẮP CÀI</h2>
                     <div class="product-details">
                         500ml: (56k/c) (Combo 6: 52k/c) (1 thùng: 25k/c)<br>
                         750ml: (61k/c) (Combo 6: 57.500k/c) (1 thùng: 26k/c)<br>
@@ -218,15 +303,60 @@
                 </div>
             </div>
             
-            <!-- Chỗ trống để thêm các sản phẩm khác sau này -->
+            <div class="product-card">
+                <img src="1.jpg" alt="Chai Dẹt Thủy Tinh">
+                <div class="product-info">
+                    <h2 class="product-title" onclick="openModal(this)">Chai Dẹt Thủy Tinh</h2>
+                    <div class="product-details">
+                        100ml: (17k/c) (Combo 6: 12.500k/c) (1 thùng: 7.500/C)<br>
+                        200ml: (19k/c) (Combo 6: 13.800k/c) (1 thùng: 8.500/C)<br>
+                        250ml: (21k/c) (Combo 6: 15.600k/c) (1 thùng: 8.500/C)<br>
+                        350ml: (25k/c) (Combo 6: 20.500k/c) (1 thùng: 9.500/C)<br>
+                        500ml: (34k/c) (Combo 6: 28.500k/c) (1 thùng: 12.500/C)<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="2.jpg" alt="Chai dây 300ml - 500ml">
+                <div class="product-info">
+                    <h2 class="product-title" onclick="openModal(this)">Chai dây 300ml - 500ml</h2>
+                    <div class="product-details">
+                        Lấy lẻ 1 bình (300ml - 500ml) : (20.500k/bình - 23.800k/chai)<br><br>
+                        Combo 6 bình (300ml - 500ml): (15.500k/bình - 18.800k/chai)<br><br>
+                        Sỉ 1 thùng (100 bình) (300ml - 500ml) : (8.800k/bình - 10.500k/bình)<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="3.jpg" alt="Chai sữa 250ml - 500ml - 1000ml">
+                <div class="product-info">
+                    <h2 class="product-title" onclick="openModal(this)">Chai sữa 250ml - 500ml - 1000ml</h2>
+                    <div class="product-details">
+                        Giá tận nhà máy không qua trung gian. Hàng có sẵn tại kho, mua càng nhiều, giá càng rẻ:<br><br>
+                        200ml: (17k/c) (combo 6-12: 12.000đ/c) (thùng 105c: 6,500k/c)<br>
+                        250ml: (18k/c) (combo 6-12: 12.500đ/c) (thùng 105c: 7.200k/c)<br>
+                        500ml: (23k/c) (combo 6-12: 17.500đ/c) (thùng 105c: 7.200k/c)<br>
+                        1000ml: (37k/c) (combo 6-12: 31.500đ/c) (thùng105c: 7.200k/c)<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         
-        <!-- Dòng chữ hiện ra khi không tìm thấy -->
         <div id="no-product-msg">Không tìm thấy sản phẩm</div>
     </main>
 
-    <!-- Bong bóng liên hệ góc dưới bên phải -->
     <div class="floating-contact" onclick="handleContactClick()">
         <div class="contact-tooltip">Liên hệ: 0355728826</div>
         <div class="user-icon">
@@ -236,33 +366,42 @@
         </div>
     </div>
 
-    <!-- Script xử lý Logic tìm kiếm và Click nút liên hệ -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">X</span>
+            <img class="modal-img" id="modal-img" src="" alt="">
+            <h2 class="modal-title" id="modal-title"></h2>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button class="buy-btn" onclick="buyProduct()">Mua</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- Xử lý tính năng Tìm kiếm ---
         const searchBar = document.getElementById('search-bar');
         const products = document.querySelectorAll('.product-card');
         const noProductMsg = document.getElementById('no-product-msg');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
 
         searchBar.addEventListener('input', function(e) {
-            // Lấy từ khóa người dùng nhập và chuyển thành chữ thường
             const keyword = e.target.value.toLowerCase();
             let hasVisibleProduct = false;
 
-            // Duyệt qua từng sản phẩm
             products.forEach(product => {
-                // Lấy toàn bộ nội dung text của sản phẩm để so sánh
-                const productText = product.innerText.toLowerCase();
+                const productText = product.textContent.toLowerCase();
                 
-                // Nếu nội dung chứa từ khóa
                 if (productText.includes(keyword)) {
-                    product.style.display = 'block'; // Hiện sản phẩm
+                    product.style.display = 'block';
                     hasVisibleProduct = true;
                 } else {
-                    product.style.display = 'none'; // Ẩn sản phẩm
+                    product.style.display = 'none';
                 }
             });
 
-            // Nếu không có sản phẩm nào hiển thị thì hiện dòng thông báo
             if (!hasVisibleProduct) {
                 noProductMsg.style.display = 'block';
             } else {
@@ -270,20 +409,51 @@
             }
         });
 
-        // --- Xử lý Click vào bong bóng liên hệ ---
         function handleContactClick() {
             const phoneNumber = "0355728826";
             
-            // Lệnh copy số điện thoại vào bộ nhớ tạm (Clipboard)
             navigator.clipboard.writeText(phoneNumber).then(() => {
                 alert("Đã copy số điện thoại: " + phoneNumber + " ! Đang chuyển hướng sang Zalo...");
-                // Mở tab Zalo tới số điện thoại
                 window.open("https://zalo.me/" + phoneNumber, "_blank");
             }).catch(err => {
-                // Đề phòng trình duyệt chặn quyền copy
-                console.error('Lỗi khi copy: ', err);
                 window.open("https://zalo.me/" + phoneNumber, "_blank");
             });
+        }
+
+        function openModal(element) {
+            const card = element.closest('.product-card');
+            const imgSrc = card.querySelector('img').src;
+            const title = card.querySelector('.product-title').innerText;
+            const details = card.querySelector('.product-details').innerHTML;
+
+            modalImg.src = imgSrc;
+            modalTitle.innerText = title;
+            modalBody.innerHTML = details;
+            
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+        }
+
+        function buyProduct() {
+            const imgSrc = modalImg.src;
+            
+            const link = document.createElement('a');
+            link.href = imgSrc;
+            link.download = 'san_pham_huy_hoang.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            alert("Hãy nhắn tin trực tiếp với shop để biết thêm chi tiết hơn về sản phẩm, giá cả,..v.v");
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modalOverlay) {
+                closeModal();
+            }
         }
     </script>
 
