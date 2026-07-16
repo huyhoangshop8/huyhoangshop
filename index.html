@@ -152,6 +152,88 @@
             text-align: center;
         }
 
+        .ranking-section {
+            background-color: #fff;
+            padding: 20px 40px;
+            margin: 0 40px 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .ranking-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            height: 220px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 110px;
+            transition: all 0.5s ease;
+        }
+
+        .podium-img-wrapper {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            margin-bottom: -15px;
+            z-index: 2;
+        }
+
+        .podium-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background-color: #fff;
+        }
+
+        .podium-stars {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            letter-spacing: 2px;
+        }
+
+        .podium-bar {
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 25px;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .podium-bar span {
+            font-size: 12px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        .rank-1 .podium-bar { height: 140px; background: linear-gradient(to top, #f1c40f, #f39c12); }
+        .rank-2 .podium-bar { height: 100px; background: linear-gradient(to top, #bdc3c7, #7f8c8d); }
+        .rank-3 .podium-bar { height: 60px; background: linear-gradient(to top, #d35400, #e67e22); }
+
         main {
             padding: 0 40px 40px 40px;
             min-height: 50vh;
@@ -170,6 +252,53 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        .intro-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .intro-box h2 {
+            text-align: center;
+            color: #d35400;
+            font-size: 32px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .intro-box ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .intro-box ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .intro-box ul li::before {
+            content: '❗';
+            position: absolute;
+            left: 0;
+            color: #e74c3c;
+        }
+
+        .intro-links a {
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .intro-links .fb-link { color: #1877F2; }
+        .intro-links .tiktok-link { color: #000000; }
+        .intro-links a:hover { text-decoration: underline; }
 
         .home-section {
             background: #fff;
@@ -493,9 +622,32 @@
         </div>
     </div>
 
+    <div class="ranking-section" id="ranking-section">
+        <h2 class="category-title">🏆 Bảng Xếp Hạng Lượt Xem 🏆</h2>
+        <div class="ranking-container" id="ranking-container">
+        </div>
+    </div>
+
     <main>
         <div id="home-view" class="view-section active">
             
+            <div class="intro-box">
+                <h2>Huy Hoàng Shop</h2>
+                <p>Chúng tôi cam kết hàng chúng tôi luôn chất lượng , giá cả rẻ với thị trường, phục vụ nhiệt tình và luôn sẵn sàng hỗ trợ.</p>
+                <p><strong>Các hàng gồm có:</strong></p>
+                <ul>
+                    <li>+, Các sản phẩm về thủy tinh</li>
+                    <li>+, Bao bì thủy tình</li>
+                    <li>+, Gốm sứ bát tràng</li>
+                    <li>+, Các sản phẩm thời bát đĩa, đồ nhà hàng</li>
+                </ul>
+                <div class="intro-links">
+                    <p><strong>Số điện thoại:</strong> 0355728826</p>
+                    <p><strong>Facebook:</strong> <a href="https://www.facebook.com/share/1DZ6psCVMa/" target="_blank" class="fb-link">Huy Hoàng</a></p>
+                    <p><strong>Tiktok:</strong> <a href="https://vt.tiktok.com/ZSXDMMPE8/" target="_blank" class="tiktok-link">Huy Hoàng 8386</a></p>
+                </div>
+            </div>
+
             <div class="home-section">
                 <h2 class="section-title">Các sản phẩm mới</h2>
                 <div class="product-grid" id="new-products-container">
@@ -636,6 +788,42 @@
                         <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
                         <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
                         <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>`
+            },
+            {
+                id: 5,
+                title: "Ly Thủy Tinh Cao Cấp",
+                img: "4.jpg",
+                views: 0,
+                details: `Ly thủy tinh chịu nhiệt tốt, thiết kế sang trọng.<br>
+                        Giá ưu đãi: 25k/c<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
+            },
+            {
+                id: 6,
+                title: "Bình Nước Thủy Tinh 1L",
+                img: "5.jpg",
+                views: 0,
+                details: `Bình đựng nước dung tích 1 Lít, an toàn cho sức khỏe.<br>
+                        Giá: 45k/bình<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
+            },
+            {
+                id: 7,
+                title: "Bát Thủy Tinh Trong Suốt",
+                img: "6.jpg",
+                views: 0,
+                details: `Bát thủy tinh cao cấp dùng cho lò vi sóng.<br>
+                        Giá: 30k/c<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
+            },
+            {
+                id: 8,
+                title: "Lọ Hoa Thủy Tinh Trang Trí",
+                img: "7.jpg",
+                views: 0,
+                details: `Lọ hoa kiểu dáng hiện đại, điểm nhấn cho không gian.<br>
+                        Giá: 55k/c<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
             }
         ];
 
@@ -655,6 +843,7 @@
                 });
             }
             renderHomeProducts();
+            renderRanking();
             renderProducts();
         });
 
@@ -662,7 +851,10 @@
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
             
-            const htmlContent = productsData.map(p => `
+            const newProducts = productsData.slice(0, 4);
+            const glassProducts = productsData.slice(4, 8);
+            
+            const generateHTML = (products) => products.map(p => `
                 <div class="product-card">
                     <div class="view-count">👁️ ${p.views}</div>
                     <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})">
@@ -672,8 +864,31 @@
                 </div>
             `).join('');
 
-            if(newContainer) newContainer.innerHTML = htmlContent;
-            if(glassContainer) glassContainer.innerHTML = htmlContent;
+            if(newContainer) newContainer.innerHTML = generateHTML(newProducts);
+            if(glassContainer) glassContainer.innerHTML = generateHTML(glassProducts);
+        }
+
+        window.renderRanking = function() {
+            const rankingContainer = document.getElementById('ranking-container');
+            let sorted = [...productsData].sort((a, b) => b.views - a.views).slice(0, 3);
+
+            let podiumOrder = [];
+            if (sorted.length > 1) podiumOrder.push({ ...sorted[1], rank: 2, stars: '⭐⭐', label: 'Top 2' });
+            if (sorted.length > 0) podiumOrder.push({ ...sorted[0], rank: 1, stars: '⭐⭐⭐', label: 'Top 1' });
+            if (sorted.length > 2) podiumOrder.push({ ...sorted[2], rank: 3, stars: '⭐', label: 'Top 3' });
+
+            rankingContainer.innerHTML = podiumOrder.map(p => `
+                <div class="podium-item rank-${p.rank}">
+                    <div class="podium-img-wrapper">
+                        <img src="${p.img}" class="podium-img" alt="${p.title}">
+                        <div class="podium-stars" style="color: gold;">${p.stars}</div>
+                    </div>
+                    <div class="podium-bar">
+                        ${p.label}
+                        <span>${p.views} lượt xem</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
         window.renderProducts = function() {
