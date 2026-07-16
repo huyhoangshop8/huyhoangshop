@@ -687,9 +687,10 @@
         </div>
     </div>
 
-    <script type="module">
+        <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue, update, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        // Cập nhật thêm hàm remove để xóa triệt để dữ liệu cũ
+        import { getDatabase, ref, onValue, update, increment, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA8icUCaIMwdYKL9XMS2LupOrJwvXmQ4QQ",
@@ -781,23 +782,39 @@
         const productsRef = ref(db, 'products');
         
         onValue(productsRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                // Chỉ lấy những sản phẩm có ID nằm trong danh sách 5 sản phẩm thực tế (Loại bỏ triệt để các ID cũ khác)
-                const fetchedData = Object.values(data).filter(p => baseProductsData.some(bp => bp.id === p.id));
-                productsData = fetchedData.sort((a, b) => a.id - b.id);
-                
-                // Đồng bộ sản phẩm mới (ID 5) lên Firebase nếu cơ sở dữ liệu chưa có
-                baseProductsData.forEach(p => {
-                    if (!data[p.id]) {
-                        update(ref(db, 'products/' + p.id), p);
-                    }
-                });
-            } else {
-                baseProductsData.forEach(p => {
+            const data = snapshot.val() || {};
+            
+            // 1. DỌN DẸP FIREBASE: Xóa triệt để các sản phẩm dư thừa (ví dụ ID 6, 7, 8...)
+            Object.keys(data).forEach(key => {
+                if (!baseProductsData.some(bp => bp.id == key)) {
+                    remove(ref(db, 'products/' + key));
+                }
+            });
+
+            // 2. ÉP GHI ĐÈ DỮ LIỆU CHUẨN: Nếu Firebase nhớ tên cũ (như 'Ly thủy tinh'), lập tức thay thế bằng tên mới!
+            baseProductsData.forEach(p => {
+                if (!data[p.id]) {
+                    // Nếu chưa có, tạo mới
                     update(ref(db, 'products/' + p.id), p);
-                });
-            }
+                } else if (data[p.id].title !== p.title) {
+                    // Nếu đã có nhưng tên bị sai lệch với code, bắt buộc ghi đè lại
+                    update(ref(db, 'products/' + p.id), {
+                        title: p.title,
+                        img: p.img,
+                        details: p.details
+                    });
+                }
+            });
+
+            // 3. HIỂN THỊ LUÔN TRÊN GIAO DIỆN: Sử dụng dữ liệu cứng kết hợp lượt view thực từ Firebase
+            productsData = baseProductsData.map(baseItem => {
+                return {
+                    ...baseItem,
+                    // Giữ lại lượt xem trên Firebase nếu có, không có thì là 0
+                    views: data[baseItem.id] ? data[baseItem.id].views : 0
+                };
+            }).sort((a, b) => a.id - b.id);
+
             renderHomeProducts();
             renderRanking();
             renderProducts();
@@ -808,10 +825,7 @@
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
             
-            // "Các sản phẩm mới": Đảo ngược danh sách hiển thị sản phẩm mới lên đầu (Hũ vuông lùn ID 5 sẽ đứng đầu)
             const newProducts = [...productsData].reverse().slice(0, 4);
-            
-            // "Đồ thủy tinh": Lấy tất cả 5 sản phẩm thủy tinh hiện tại
             const glassProducts = productsData.slice(0, 5);
             
             const generateHTML = (products) => products.map(p => `
@@ -832,7 +846,6 @@
             const container = document.getElementById('glass-category-container');
             if (!container) return;
 
-            // Hiển thị đầy đủ đúng 5 sản phẩm thủy tinh trong menu danh mục "Các đồ thủy tinh"
             const glassCategoryProducts = productsData.slice(0, 5);
             
             container.innerHTML = glassCategoryProducts.map(p => `
