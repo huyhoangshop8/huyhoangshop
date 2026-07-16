@@ -152,89 +152,6 @@
             text-align: center;
         }
 
-        /* ----- CSS BẢNG XẾP HẠNG (PODIUM) ----- */
-        .ranking-section {
-            background-color: #fff;
-            padding: 20px 40px;
-            margin: 0 40px 20px 40px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .ranking-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 20px;
-            height: 220px;
-            margin-top: 20px;
-            padding-bottom: 20px;
-        }
-
-        .podium-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 110px;
-            transition: all 0.5s ease;
-        }
-
-        .podium-img-wrapper {
-            position: relative;
-            width: 70px;
-            height: 70px;
-            margin-bottom: -15px;
-            z-index: 2;
-        }
-
-        .podium-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            background-color: #fff;
-        }
-
-        .podium-stars {
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.7);
-            border-radius: 10px;
-            padding: 2px 6px;
-            font-size: 11px;
-            white-space: nowrap;
-            letter-spacing: 2px;
-        }
-
-        .podium-bar {
-            width: 100%;
-            border-radius: 10px 10px 0 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding-top: 25px;
-            color: #fff;
-            font-weight: bold;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .podium-bar span {
-            font-size: 12px;
-            font-weight: normal;
-            opacity: 0.9;
-        }
-
-        .rank-1 .podium-bar { height: 140px; background: linear-gradient(to top, #f1c40f, #f39c12); }
-        .rank-2 .podium-bar { height: 100px; background: linear-gradient(to top, #bdc3c7, #7f8c8d); }
-        .rank-3 .podium-bar { height: 60px; background: linear-gradient(to top, #d35400, #e67e22); }
-
         main {
             padding: 0 40px 40px 40px;
             min-height: 50vh;
@@ -254,59 +171,31 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .intro-box {
+        .home-section {
             background: #fff;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-            font-size: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
         }
 
-        .intro-box h2 {
-            text-align: center;
+        .section-title {
             color: #d35400;
-            font-size: 32px;
+            font-size: 26px;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            border-bottom: 3px solid #f1c40f;
+            display: inline-block;
+            padding-bottom: 5px;
         }
-
-        .intro-box ul {
-            list-style: none;
-            padding-left: 20px;
-        }
-
-        .intro-box ul li {
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .intro-box ul li::before {
-            content: '❗';
-            position: absolute;
-            left: 0;
-            color: #e74c3c;
-        }
-
-        .intro-links a {
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .intro-links .fb-link { color: #1877F2; }
-        .intro-links .tiktok-link { color: #000000; }
-        .intro-links a:hover { text-decoration: underline; }
 
         .product-grid {
             display: flex;
             flex-wrap: nowrap;
             gap: 30px;
             overflow-x: auto;
-            padding: 20px 0;
+            padding: 10px 0 30px 0;
             scroll-behavior: smooth;
         }
 
@@ -323,10 +212,12 @@
             overflow: hidden;
             transition: transform 0.3s;
             position: relative; 
+            border: 1px solid #eee;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(211, 84, 0, 0.2);
         }
 
         .view-count {
@@ -364,11 +255,12 @@
             margin: 0;
             cursor: pointer;
             transition: color 0.3s;
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         .product-title:hover {
             color: #e67e22;
+            text-decoration: underline;
         }
 
         .contact-highlight {
@@ -389,10 +281,10 @@
 
         .empty-message {
             text-align: center;
-            font-size: 36px;
+            font-size: 28px;
             color: #7f8c8d;
             font-weight: bold;
-            margin-top: 100px;
+            padding: 40px 0;
         }
 
         .floating-contact {
@@ -601,34 +493,29 @@
         </div>
     </div>
 
-    <div class="ranking-section" id="ranking-section">
-        <h2 class="category-title">🏆 Bảng Xếp Hạng Lượt Xem 🏆</h2>
-        <div class="ranking-container" id="ranking-container">
-        </div>
-    </div>
-
     <main>
         <div id="home-view" class="view-section active">
-            <div class="intro-box">
-                <h2>Huy Hoàng Shop</h2>
-                <p>Chúng tôi cam kết hàng chúng tôi luôn chất lượng , giá cả rẻ với thị trường, phục vụ nhiệt tình và luôn sẵn sàng hỗ trợ.</p>
-                <p><strong>Các hàng gồm có:</strong></p>
-                <ul>
-                    <li>+, Các sản phẩm về thủy tinh</li>
-                    <li>+, Bao bì thủy tình</li>
-                    <li>+, Gốm sứ bát tràng</li>
-                    <li>+, Các sản phẩm thời bát đĩa, đồ nhà hàng</li>
-                </ul>
-                <div class="intro-links">
-                    <p><strong>Số điện thoại:</strong> 0355728826</p>
-                    <p><strong>Facebook:</strong> <a href="https://www.facebook.com/share/1DZ6psCVMa/" target="_blank" class="fb-link">Huy Hoàng</a></p>
-                    <p><strong>Tiktok:</strong> <a href="https://vt.tiktok.com/ZSXDMMPE8/" target="_blank" class="tiktok-link">Huy Hoàng 8386</a></p>
+            
+            <div class="home-section">
+                <h2 class="section-title">Các sản phẩm mới</h2>
+                <div class="product-grid" id="new-products-container">
                 </div>
+            </div>
+
+            <div class="home-section">
+                <h2 class="section-title">Đồ thủy tinh</h2>
+                <div class="product-grid" id="glass-products-container">
+                </div>
+            </div>
+
+            <div class="home-section">
+                <h2 class="section-title">Đồ gia dụng,..v.v</h2>
+                <div class="empty-message">Chưa cập nhật 🥲</div>
             </div>
         </div>
 
         <div id="products-view" class="view-section">
-            <div class="product-grid" id="product-container">
+            <div class="product-grid" id="product-container" style="flex-wrap: wrap; justify-content: center;">
             </div>
             <div id="no-product-msg">Không tìm thấy sản phẩm</div>
         </div>
@@ -677,11 +564,9 @@
     </div>
 
     <script type="module">
-        // 1. Nhập các thư viện cần thiết từ CDN chính thức của Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getDatabase, ref, onValue, update, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        // 2. Cấu hình Firebase thực tế từ tài khoản của bạn (Đã thêm chính xác databaseURL)
         const firebaseConfig = {
             apiKey: "AIzaSyA8icUCaIMwdYKL9XMS2LupOrJwvXmQ4QQ",
             authDomain: "shophuyhoang-6b3b3.firebaseapp.com",
@@ -693,11 +578,9 @@
             measurementId: "G-LDPG0LE343"
         };
 
-        // Khởi tạo ứng dụng Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Dữ liệu sản phẩm gốc có sẵn đầy đủ thông tin mô tả chi tiết của bạn
         const baseProductsData = [
             {
                 id: 1,
@@ -759,26 +642,40 @@
         let productsData = [...baseProductsData];
         let currentSearchKeyword = "";
 
-        // Lắng nghe dữ liệu thời gian thực đồng bộ từ Realtime Database
         const productsRef = ref(db, 'products');
         
         onValue(productsRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                // Nhận dữ liệu từ Firebase và sắp xếp theo ID ban đầu
                 const fetchedData = Object.values(data);
                 productsData = fetchedData.sort((a, b) => a.id - b.id);
             } else {
-                // Nếu chạy lần đầu, Database trống thì đẩy dữ liệu mặc định lên server
                 baseProductsData.forEach(p => {
                     update(ref(db, 'products/' + p.id), p);
                 });
             }
+            renderHomeProducts();
             renderProducts();
-            renderRanking();
         });
 
-        // Hàm hiển thị sản phẩm (giao diện)
+        window.renderHomeProducts = function() {
+            const newContainer = document.getElementById('new-products-container');
+            const glassContainer = document.getElementById('glass-products-container');
+            
+            const htmlContent = productsData.map(p => `
+                <div class="product-card">
+                    <div class="view-count">👁️ ${p.views}</div>
+                    <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})">
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
+                    </div>
+                </div>
+            `).join('');
+
+            if(newContainer) newContainer.innerHTML = htmlContent;
+            if(glassContainer) glassContainer.innerHTML = htmlContent;
+        }
+
         window.renderProducts = function() {
             const container = document.getElementById('product-container');
             const noProductMsg = document.getElementById('no-product-msg');
@@ -806,30 +703,6 @@
                     </div>
                 `).join('');
             }
-        }
-
-        // Hàm hiển thị bảng xếp hạng Podium
-        window.renderRanking = function() {
-            const rankingContainer = document.getElementById('ranking-container');
-            let sorted = [...productsData].sort((a, b) => b.views - a.views).slice(0, 3);
-
-            let podiumOrder = [];
-            if (sorted.length > 1) podiumOrder.push({ ...sorted[1], rank: 2, stars: '⭐⭐', label: 'Top 2' });
-            if (sorted.length > 0) podiumOrder.push({ ...sorted[0], rank: 1, stars: '⭐⭐⭐', label: 'Top 1' });
-            if (sorted.length > 2) podiumOrder.push({ ...sorted[2], rank: 3, stars: '⭐', label: 'Top 3' });
-
-            rankingContainer.innerHTML = podiumOrder.map(p => `
-                <div class="podium-item rank-${p.rank}">
-                    <div class="podium-img-wrapper">
-                        <img src="${p.img}" class="podium-img" alt="${p.title}">
-                        <div class="podium-stars" style="color: gold;">${p.stars}</div>
-                    </div>
-                    <div class="podium-bar">
-                        ${p.label}
-                        <span>${p.views} lượt xem</span>
-                    </div>
-                </div>
-            `).join('');
         }
 
         const views = ['home-view', 'products-view', '1-view', '2-view', 'empty-view'];
@@ -861,11 +734,9 @@
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
 
-        // Hàm mở cửa sổ và cộng trực tiếp lượt xem đồng bộ lên cơ sở dữ liệu Firebase
         window.openModal = function(productId) {
             let product = productsData.find(p => p.id === productId);
             if(product) {
-                // Tăng 1 lượt xem lên mảng trực tuyến
                 const productRef = ref(db, 'products/' + productId);
                 update(productRef, {
                     views: increment(1)
