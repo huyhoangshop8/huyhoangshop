@@ -97,9 +97,65 @@
             box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
         }
 
+        /* ----- CSS MỚI CHO PHẦN DANH MỤC ----- */
+        .category-section {
+            background-color: #fff;
+            padding: 20px 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            text-align: center;
+            color: #d35400;
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .category-container {
+            display: flex;
+            gap: 40px;
+            overflow-x: auto;
+            justify-content: center;
+            padding-bottom: 10px;
+        }
+
+        .category-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            min-width: 120px;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .category-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f1c40f;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .category-card span {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        /* ------------------------------------- */
+
         main {
-            padding: 40px;
-            min-height: 70vh;
+            padding: 20px 40px 40px 40px;
+            min-height: 50vh;
         }
 
         .view-section {
@@ -171,14 +227,31 @@
             text-decoration: underline;
         }
 
+        /* ----- CSS ĐƯỢC CHỈNH SỬA ĐỂ VUỐT NGANG ----- */
         .product-grid {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap; /* Tắt tự động xuống dòng để xếp thành dải ngang */
             gap: 30px;
-            justify-content: center;
+            overflow-x: auto; /* Cho phép cuộn ngang */
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        /* Tùy chỉnh thanh cuộn ngang cho đẹp */
+        .product-grid::-webkit-scrollbar {
+            height: 10px;
+        }
+        .product-grid::-webkit-scrollbar-thumb {
+            background: #d35400;
+            border-radius: 10px;
+        }
+        .product-grid::-webkit-scrollbar-track {
+            background: #ffeaa7;
+            border-radius: 10px;
         }
 
         .product-card {
+            flex: 0 0 auto; /* Ngăn không cho thẻ tự thu nhỏ */
             background: #fff;
             border-radius: 15px;
             width: 300px;
@@ -186,6 +259,7 @@
             overflow: hidden;
             transition: transform 0.3s;
         }
+        /* ------------------------------------------- */
 
         .product-card:hover {
             transform: translateY(-5px);
@@ -392,6 +466,28 @@
             background-color: #0056b3;
             transform: scale(1.05);
         }
+
+        /* ----- CSS MỚI CHO BẢNG FOOTER ----- */
+        .site-footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-top: 40px;
+            border-top: 5px solid #d35400;
+        }
+
+        .site-footer p {
+            margin: 8px 0;
+        }
+
+        .site-footer .highlight {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+        /* ----------------------------------- */
     </style>
 </head>
 <body>
@@ -417,6 +513,29 @@
         </div>
     </header>
 
+    <!-- KHU VỰC DANH MỤC SẢN PHẨM Ở DƯỚI BẢNG MENU -->
+    <div class="category-section">
+        <h2 class="category-title">Danh Mục Sản Phẩm</h2>
+        <div class="category-container">
+            <div class="category-card" onclick="showView('products-view')">
+                <img src="69.jpg" alt="Đơn bán chạy">
+                <span>Các đơn bán chạy</span>
+            </div>
+            <div class="category-card" onclick="showView('1-view')">
+                <img src="1.jpg" alt="Đồ thủy tinh">
+                <span>Các đồ thủy tinh</span>
+            </div>
+            <div class="category-card" onclick="showView('2-view')">
+                <img src="2.jpg" alt="Đồ gia dụng">
+                <span>Đồ gia dụng</span>
+            </div>
+            <div class="category-card" onclick="showView('empty-view')">
+                <img src="3.jpg" alt="Khác">
+                <span>Mặt hàng khác</span>
+            </div>
+        </div>
+    </div>
+
     <main>
         <div id="home-view" class="view-section active">
             <div class="intro-box">
@@ -438,6 +557,7 @@
         </div>
 
         <div id="products-view" class="view-section">
+            <!-- SẢN PHẨM ĐÃ ĐƯỢC CẬP NHẬT ĐỂ VUỐT NGANG -->
             <div class="product-grid" id="product-container">
                 <div class="product-card">
                     <img src="69.jpg" alt="HŨ VUÔNG NẮP CÀI">
@@ -510,12 +630,28 @@
             <div id="no-product-msg">Không tìm thấy sản phẩm</div>
         </div>
 
+        <div id="1-view" class="view-section">
+            <div class="empty-message">Các Đồ Thủy Tinh<br>Đang Cập Nhật 🥲</div>
+        </div>
+
+        <div id="2-view" class="view-section">
+            <div class="empty-message">Đồ Gia Dụng<br>Đang Cập Nhật 🥲</div>
+        </div>
+
         <div id="empty-view" class="view-section">
             <div class="empty-message">
                 Chưa cập nhật 🥲
             </div>
         </div>
     </main>
+
+    <!-- BẢNG THÔNG TIN NỘI DUNG CUỐI TRANG (FOOTER) -->
+    <footer class="site-footer">
+        <p>Code: <span class="highlight">Made By XuanPhi</span></p>
+        <p>Bản Quyền thuộc Huy Hoàng không sao chép không chỉnh sửa mọi hình thức</p>
+        <p>Copyright by <span class="highlight">XuanPhi</span></p>
+        <p>Liên hệ: <span class="highlight">0355728826</span></p>
+    </footer>
 
     <div class="floating-contact" onclick="handleContactClick()">
         <div class="contact-tooltip">Liên hệ: 0355728826</div>
@@ -539,7 +675,8 @@
     </div>
 
     <script>
-        const views = ['home-view', 'products-view', 'empty-view'];
+        // Mở rộng mảng views để chứa các danh mục mới
+        const views = ['home-view', 'products-view', '1-view', '2-view', 'empty-view'];
         
         function showView(viewId) {
             views.forEach(id => {
