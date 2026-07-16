@@ -13,6 +13,14 @@
             color: #333;
         }
 
+        .marquee-container {
+            background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -25,10 +33,46 @@
             z-index: 100;
         }
 
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
         .logo img {
             height: 70px;
             object-fit: contain;
+        }
+
+        .logo h1 {
+            margin: 0;
+            color: #d35400;
+            font-size: 24px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-menu button {
+            background-color: #f1c40f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
             cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-menu button:hover {
+            background-color: #f39c12;
+            color: #fff;
+            transform: translateY(-2px);
         }
 
         .search-container {
@@ -47,7 +91,7 @@
         }
 
         #search-bar:focus {
-            width: 400px;
+            width: 350px;
             border-color: #FFC107;
             background-color: #fff;
             box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
@@ -58,16 +102,86 @@
             min-height: 70vh;
         }
 
+        .view-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .intro-box h2 {
+            text-align: center;
+            color: #d35400;
+            font-size: 32px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .intro-box ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .intro-box ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .intro-box ul li::before {
+            content: '❗';
+            position: absolute;
+            left: 0;
+            color: #e74c3c;
+        }
+
+        .intro-links a {
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .intro-links .fb-link {
+            color: #1877F2;
+        }
+
+        .intro-links .tiktok-link {
+            color: #000000;
+        }
+
+        .intro-links a:hover {
+            text-decoration: underline;
+        }
+
         .product-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
+            justify-content: center;
         }
 
         .product-card {
             background: #fff;
             border-radius: 15px;
-            width: 320px;
+            width: 300px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             transition: transform 0.3s;
@@ -121,6 +235,14 @@
             color: #7f8c8d;
             margin-top: 50px;
             font-weight: bold;
+        }
+
+        .empty-message {
+            text-align: center;
+            font-size: 36px;
+            color: #7f8c8d;
+            font-weight: bold;
+            margin-top: 100px;
         }
 
         .floating-contact {
@@ -194,7 +316,7 @@
             background: #fff;
             width: 90%;
             max-width: 500px;
-            border-radius: 20px;
+            border-radius: 30px;
             padding: 25px;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -227,7 +349,7 @@
 
         .modal-img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 15px;
             margin-bottom: 15px;
             object-fit: contain;
             max-height: 250px;
@@ -255,7 +377,7 @@
         }
 
         .buy-btn {
-            background-color: blue;
+            background-color: #007bff;
             color: white;
             border: none;
             padding: 12px 30px;
@@ -267,94 +389,132 @@
         }
 
         .buy-btn:hover {
-            background-color: #0000cd;
+            background-color: #0056b3;
             transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
+    <div class="marquee-container">
+        <marquee behavior="scroll" direction="right">ƯU ĐÃI: Mua càng nhiều giá càng rẻ</marquee>
+    </div>
+
     <header>
-        <div class="logo">
+        <div class="logo" onclick="showView('home-view')">
             <img src="67.jpg" alt="Logo">
+            <h1>Huy Hoàng Shop</h1>
         </div>
+        
+        <div class="nav-menu">
+            <button onclick="showView('products-view')">Các đơn bán chạy</button>
+            <button onclick="showView('products-view')">Các đồ thủy tinh</button>
+            <button onclick="showView('empty-view')">Các đồ gia dụng,..v.v</button>
+        </div>
+
         <div class="search-container">
             <input type="text" id="search-bar" placeholder="Tìm kiếm sản phẩm...">
         </div>
     </header>
 
     <main>
-        <div class="product-grid" id="product-container">
-            <div class="product-card">
-                <img src="69.jpg" alt="HŨ VUÔNG NẮP CÀI">
-                <div class="product-info">
-                    <h2 class="product-title" onclick="openModal(this)">HŨ VUÔNG NẮP CÀI</h2>
-                    <div class="product-details">
-                        500ml: (56k/c) (Combo 6: 52k/c) (1 thùng: 25k/c)<br>
-                        750ml: (61k/c) (Combo 6: 57.500k/c) (1 thùng: 26k/c)<br>
-                        1000ml: (66k/c) (Combo 6: 62.500k/c) (1 thùng: 29.500k/c)<br>
-                        1500ml: (79k/c) (Combo 6: 75.500k/c) (1 thùng: 34.500k/c)<br>
-                        2000ml: (98k/c) (Combo 6: 93.600k/c) (1 thùng: 50.500k/c)<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">
-                            🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)
+        <div id="home-view" class="view-section active">
+            <div class="intro-box">
+                <h2>Huy Hoàng Shop</h2>
+                <p>Chúng tôi cam kết hàng chúng tôi luôn chất lượng , giá cả rẻ với thị trường, phục vụ nhiệt tình và luôn sẵn sàng hỗ trợ.</p>
+                <p><strong>Các hàng gồm có:</strong></p>
+                <ul>
+                    <li>+, Các sản phẩm về thủy tinh</li>
+                    <li>+, Bao bì thủy tình</li>
+                    <li>+, Gốm sứ bát tràng</li>
+                    <li>+, Các sản phẩm thời bát đĩa, đồ nhà hàng</li>
+                </ul>
+                <div class="intro-links">
+                    <p><strong>Số điện thoại:</strong> 0355728826</p>
+                    <p><strong>Facebook:</strong> <a href="https://www.facebook.com/share/1DZ6psCVMa/" target="_blank" class="fb-link">Huy Hoàng</a></p>
+                    <p><strong>Tiktok:</strong> <a href="https://vt.tiktok.com/ZSXDMMPE8/" target="_blank" class="tiktok-link">Huy Hoàng 8386</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="products-view" class="view-section">
+            <div class="product-grid" id="product-container">
+                <div class="product-card">
+                    <img src="69.jpg" alt="HŨ VUÔNG NẮP CÀI">
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(this)">HŨ VUÔNG NẮP CÀI</h2>
+                        <div class="product-details">
+                            500ml: (56k/c) (Combo 6: 52k/c) (1 thùng: 25k/c)<br>
+                            750ml: (61k/c) (Combo 6: 57.500k/c) (1 thùng: 26k/c)<br>
+                            1000ml: (66k/c) (Combo 6: 62.500k/c) (1 thùng: 29.500k/c)<br>
+                            1500ml: (79k/c) (Combo 6: 75.500k/c) (1 thùng: 34.500k/c)<br>
+                            2000ml: (98k/c) (Combo 6: 93.600k/c) (1 thùng: 50.500k/c)<br>
+                            <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">
+                                🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="1.jpg" alt="Chai Dẹt Thủy Tinh">
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(this)">Chai Dẹt Thủy Tinh</h2>
+                        <div class="product-details">
+                            100ml: (17k/c) (Combo 6: 12.500k/c) (1 thùng: 7.500/C)<br>
+                            200ml: (19k/c) (Combo 6: 13.800k/c) (1 thùng: 8.500/C)<br>
+                            250ml: (21k/c) (Combo 6: 15.600k/c) (1 thùng: 8.500/C)<br>
+                            350ml: (25k/c) (Combo 6: 20.500k/c) (1 thùng: 9.500/C)<br>
+                            500ml: (34k/c) (Combo 6: 28.500k/c) (1 thùng: 12.500/C)<br>
+                            <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="2.jpg" alt="Chai dây 300ml - 500ml">
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(this)">Chai dây 300ml - 500ml</h2>
+                        <div class="product-details">
+                            Lấy lẻ 1 bình (300ml - 500ml) : (20.500k/bình - 23.800k/chai)<br><br>
+                            Combo 6 bình (300ml - 500ml): (15.500k/bình - 18.800k/chai)<br><br>
+                            Sỉ 1 thùng (100 bình) (300ml - 500ml) : (8.800k/bình - 10.500k/bình)<br>
+                            <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="3.jpg" alt="Chai sữa 250ml - 500ml - 1000ml">
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(this)">Chai sữa 250ml - 500ml - 1000ml</h2>
+                        <div class="product-details">
+                            Giá tận nhà máy không qua trung gian. Hàng có sẵn tại kho, mua càng nhiều, giá càng rẻ:<br><br>
+                            200ml: (17k/c) (combo 6-12: 12.000đ/c) (thùng 105c: 6,500k/c)<br>
+                            250ml: (18k/c) (combo 6-12: 12.500đ/c) (thùng 105c: 7.200k/c)<br>
+                            500ml: (23k/c) (combo 6-12: 17.500đ/c) (thùng 105c: 7.200k/c)<br>
+                            1000ml: (37k/c) (combo 6-12: 31.500đ/c) (thùng105c: 7.200k/c)<br>
+                            <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                            <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="product-card">
-                <img src="1.jpg" alt="Chai Dẹt Thủy Tinh">
-                <div class="product-info">
-                    <h2 class="product-title" onclick="openModal(this)">Chai Dẹt Thủy Tinh</h2>
-                    <div class="product-details">
-                        100ml: (17k/c) (Combo 6: 12.500k/c) (1 thùng: 7.500/C)<br>
-                        200ml: (19k/c) (Combo 6: 13.800k/c) (1 thùng: 8.500/C)<br>
-                        250ml: (21k/c) (Combo 6: 15.600k/c) (1 thùng: 8.500/C)<br>
-                        350ml: (25k/c) (Combo 6: 20.500k/c) (1 thùng: 9.500/C)<br>
-                        500ml: (34k/c) (Combo 6: 28.500k/c) (1 thùng: 12.500/C)<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="2.jpg" alt="Chai dây 300ml - 500ml">
-                <div class="product-info">
-                    <h2 class="product-title" onclick="openModal(this)">Chai dây 300ml - 500ml</h2>
-                    <div class="product-details">
-                        Lấy lẻ 1 bình (300ml - 500ml) : (20.500k/bình - 23.800k/chai)<br><br>
-                        Combo 6 bình (300ml - 500ml): (15.500k/bình - 18.800k/chai)<br><br>
-                        Sỉ 1 thùng (100 bình) (300ml - 500ml) : (8.800k/bình - 10.500k/bình)<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="3.jpg" alt="Chai sữa 250ml - 500ml - 1000ml">
-                <div class="product-info">
-                    <h2 class="product-title" onclick="openModal(this)">Chai sữa 250ml - 500ml - 1000ml</h2>
-                    <div class="product-details">
-                        Giá tận nhà máy không qua trung gian. Hàng có sẵn tại kho, mua càng nhiều, giá càng rẻ:<br><br>
-                        200ml: (17k/c) (combo 6-12: 12.000đ/c) (thùng 105c: 6,500k/c)<br>
-                        250ml: (18k/c) (combo 6-12: 12.500đ/c) (thùng 105c: 7.200k/c)<br>
-                        500ml: (23k/c) (combo 6-12: 17.500đ/c) (thùng 105c: 7.200k/c)<br>
-                        1000ml: (37k/c) (combo 6-12: 31.500đ/c) (thùng105c: 7.200k/c)<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
-                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOXngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>
-                    </div>
-                </div>
-            </div>
-
+            <div id="no-product-msg">Không tìm thấy sản phẩm</div>
         </div>
-        
-        <div id="no-product-msg">Không tìm thấy sản phẩm</div>
+
+        <div id="empty-view" class="view-section">
+            <div class="empty-message">
+                Chưa cập nhật 🥲
+            </div>
+        </div>
     </main>
 
     <div class="floating-contact" onclick="handleContactClick()">
@@ -379,15 +539,22 @@
     </div>
 
     <script>
+        const views = ['home-view', 'products-view', 'empty-view'];
+        
+        function showView(viewId) {
+            views.forEach(id => {
+                document.getElementById(id).classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+        }
+
         const searchBar = document.getElementById('search-bar');
         const products = document.querySelectorAll('.product-card');
         const noProductMsg = document.getElementById('no-product-msg');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalImg = document.getElementById('modal-img');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
 
         searchBar.addEventListener('input', function(e) {
+            showView('products-view');
+            
             const keyword = e.target.value.toLowerCase();
             let hasVisibleProduct = false;
 
@@ -419,6 +586,11 @@
                 window.open("https://zalo.me/" + phoneNumber, "_blank");
             });
         }
+
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
 
         function openModal(element) {
             const card = element.closest('.product-card');
