@@ -796,6 +796,17 @@
                 details: `Lọ hoa kiểu dáng hiện đại, điểm nhấn cho không gian.<br>
                         Giá: 55k/c<br>
                         <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
+            },
+            {
+                id: 9,
+                title: "HŨ THỦY TINH VUÔNG LÙN",
+                img: "4.jpg",
+                views: 0,
+                details: `Hũ 300ml: (23k/hũ) (Combo 6: 18.200k/hũ) (1 thùng: 8.900k/hũ)<br><br>
+                        Hũ 500ml: (27k/hũ) (Combo 6: 21.500k/hũ) (1 thùng: 10.200k/hũ)<br>
+                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826 / 0962063332</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #27ae60;">🚚 CHÍNH SÁCH BẢO HÀNH: Cam kết bọc xốp kỹ càng khi giao hàng. (1 đổi 1)</div>
+                        <div style="margin-top: 10px; font-weight: bold; color: #d35400;">👉INBOX ngay hôm nay để nhận bảng giá sỉ siêu ưu đãi !!!</div>`
             }
         ];
 
@@ -809,6 +820,15 @@
             if (data) {
                 const fetchedData = Object.values(data);
                 productsData = fetchedData.sort((a, b) => a.id - b.id);
+                
+                // Tự động kiểm tra và đồng bộ sản phẩm mới (ID 9) lên Firebase nếu chưa tồn tại
+                if (fetchedData.length < baseProductsData.length) {
+                    baseProductsData.forEach(p => {
+                        if (!data[p.id]) {
+                            update(ref(db, 'products/' + p.id), p);
+                        }
+                    });
+                }
             } else {
                 baseProductsData.forEach(p => {
                     update(ref(db, 'products/' + p.id), p);
@@ -824,9 +844,11 @@
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
             
-            // Lấy 4 sản phẩm đầu tiên cho cả 2 danh mục theo đúng yêu cầu
-            const newProducts = productsData.slice(0, 4);
-            const glassProducts = productsData.slice(0, 4);
+            // "Các sản phẩm mới": Đảo ngược danh sách hiển thị sản phẩm mới nhất lên đầu (ID 9 sẽ đứng đầu tiên)
+            const newProducts = [...productsData].reverse().slice(0, 4);
+            
+            // "Đồ thủy tinh": Lấy tất cả 9 sản phẩm thủy tinh hiện tại để người dùng dễ lướt xem
+            const glassProducts = productsData.slice(0, 9);
             
             const generateHTML = (products) => products.map(p => `
                 <div class="product-card">
@@ -846,8 +868,8 @@
             const container = document.getElementById('glass-category-container');
             if (!container) return;
 
-            // Lấy 4 sản phẩm tiếp theo (Ly, Bình nước, Bát, Lọ hoa) hiển thị trong Danh mục con
-            const glassCategoryProducts = productsData.slice(4, 8);
+            // Hiển thị đầy đủ cả 9 sản phẩm thủy tinh trong menu danh mục "Các đồ thủy tinh"
+            const glassCategoryProducts = productsData.slice(0, 9);
             
             container.innerHTML = glassCategoryProducts.map(p => `
                 <div class="product-card" style="margin: 15px;">
