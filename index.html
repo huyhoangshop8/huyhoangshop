@@ -676,8 +676,28 @@
         </div>
     </div>
 
-    <script>
-        // Dữ liệu gốc mặc định (sẽ được sử dụng nếu chưa có lượt xem nào lưu trong bộ nhớ)
+    <script type="module">
+        // 1. Nhập các thư viện cần thiết từ CDN chính thức của Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, onValue, update, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        // 2. Cấu hình Firebase thực tế từ tài khoản của bạn (Đã thêm chính xác databaseURL)
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8icUCaIMwdYKL9XMS2LupOrJwvXmQ4QQ",
+            authDomain: "shophuyhoang-6b3b3.firebaseapp.com",
+            databaseURL: "https://shophuyhoang-6b3b3-default-rtdb.firebaseio.com",
+            projectId: "shophuyhoang-6b3b3",
+            storageBucket: "shophuyhoang-6b3b3.firebasestorage.app",
+            messagingSenderId: "134525949897",
+            appId: "1:134525949897:web:114876970202575f6afa18",
+            measurementId: "G-LDPG0LE343"
+        };
+
+        // Khởi tạo ứng dụng Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Dữ liệu sản phẩm gốc có sẵn đầy đủ thông tin mô tả chi tiết của bạn
         const baseProductsData = [
             {
                 id: 1,
@@ -736,12 +756,30 @@
             }
         ];
 
-        // Lấy dữ liệu từ localStorage, nếu chưa có thì dùng baseProductsData
-        let productsData = JSON.parse(localStorage.getItem('huyHoangShopData')) || baseProductsData;
-
+        let productsData = [...baseProductsData];
         let currentSearchKeyword = "";
 
-        function renderProducts() {
+        // Lắng nghe dữ liệu thời gian thực đồng bộ từ Realtime Database
+        const productsRef = ref(db, 'products');
+        
+        onValue(productsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                // Nhận dữ liệu từ Firebase và sắp xếp theo ID ban đầu
+                const fetchedData = Object.values(data);
+                productsData = fetchedData.sort((a, b) => a.id - b.id);
+            } else {
+                // Nếu chạy lần đầu, Database trống thì đẩy dữ liệu mặc định lên server
+                baseProductsData.forEach(p => {
+                    update(ref(db, 'products/' + p.id), p);
+                });
+            }
+            renderProducts();
+            renderRanking();
+        });
+
+        // Hàm hiển thị sản phẩm (giao diện)
+        window.renderProducts = function() {
             const container = document.getElementById('product-container');
             const noProductMsg = document.getElementById('no-product-msg');
             
@@ -770,7 +808,8 @@
             }
         }
 
-        function renderRanking() {
+        // Hàm hiển thị bảng xếp hạng Podium
+        window.renderRanking = function() {
             const rankingContainer = document.getElementById('ranking-container');
             let sorted = [...productsData].sort((a, b) => b.views - a.views).slice(0, 3);
 
@@ -793,11 +832,8 @@
             `).join('');
         }
 
-        renderProducts();
-        renderRanking();
-
         const views = ['home-view', 'products-view', '1-view', '2-view', 'empty-view'];
-        function showView(viewId) {
+        window.showView = function(viewId) {
             views.forEach(id => {
                 document.getElementById(id).classList.remove('active');
             });
@@ -805,12 +841,12 @@
         }
 
         document.getElementById('search-bar').addEventListener('input', function(e) {
-            showView('products-view');
+            window.showView('products-view');
             currentSearchKeyword = e.target.value.toLowerCase();
-            renderProducts();
+            window.renderProducts();
         });
 
-        function handleContactClick() {
+        window.handleContactClick = function() {
             const phoneNumber = "0355728826";
             navigator.clipboard.writeText(phoneNumber).then(() => {
                 alert("Đã copy số điện thoại: " + phoneNumber + " ! Đang chuyển hướng sang Zalo...");
@@ -825,17 +861,15 @@
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
 
-        function openModal(productId) {
+        // Hàm mở cửa sổ và cộng trực tiếp lượt xem đồng bộ lên cơ sở dữ liệu Firebase
+        window.openModal = function(productId) {
             let product = productsData.find(p => p.id === productId);
             if(product) {
-                // Tăng lượt xem
-                product.views += 1;
-                
-                // LƯU LẠI VÀO BỘ NHỚ TRÌNH DUYỆT ĐỂ KHÔNG BỊ MẤT KHI RELOAD
-                localStorage.setItem('huyHoangShopData', JSON.stringify(productsData));
-                
-                renderProducts();
-                renderRanking();
+                // Tăng 1 lượt xem lên mảng trực tuyến
+                const productRef = ref(db, 'products/' + productId);
+                update(productRef, {
+                    views: increment(1)
+                });
 
                 modalImg.src = product.img;
                 modalTitle.innerText = product.title;
@@ -844,11 +878,11 @@
             }
         }
 
-        function closeModal() {
+        window.closeModal = function() {
             modalOverlay.style.display = 'none';
         }
 
-        function buyProduct() {
+        window.buyProduct = function() {
             const imgSrc = modalImg.src;
             const link = document.createElement('a');
             link.href = imgSrc;
@@ -862,7 +896,7 @@
 
         window.onclick = function(event) {
             if (event.target == modalOverlay) {
-                closeModal();
+                window.closeModal();
             }
         }
     </script>
