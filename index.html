@@ -51,30 +51,6 @@
             font-size: 24px;
         }
 
-        .nav-menu {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-menu button {
-            background-color: #f1c40f;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .nav-menu button:hover {
-            background-color: #f39c12;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
         .search-container {
             position: relative;
         }
@@ -588,12 +564,6 @@
             <img src="67.jpg" alt="Logo">
             <h1>Huy Hoàng Shop</h1>
         </div>
-        
-        <div class="nav-menu">
-            <button onclick="showView('products-view')">Các đơn bán chạy</button>
-            <button onclick="showView('products-view')">Các đồ thủy tinh</button>
-            <button onclick="showView('empty-view')">Các đồ gia dụng,..v.v</button>
-        </div>
 
         <div class="search-container">
             <input type="text" id="search-bar" placeholder="Tìm kiếm sản phẩm...">
@@ -673,7 +643,9 @@
         </div>
 
         <div id="1-view" class="view-section">
-            <div class="empty-message">Các Đồ Thủy Tinh<br>Đang Cập Nhật 🥲</div>
+            <h2 class="category-title">Các Đồ Thủy Tinh</h2>
+            <div class="product-grid" id="glass-category-container" style="flex-wrap: wrap; justify-content: center;">
+            </div>
         </div>
 
         <div id="2-view" class="view-section">
@@ -845,14 +817,16 @@
             renderHomeProducts();
             renderRanking();
             renderProducts();
+            renderGlassCategory();
         });
 
         window.renderHomeProducts = function() {
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
             
+            // Lấy 4 sản phẩm đầu tiên cho cả 2 danh mục theo đúng yêu cầu
             const newProducts = productsData.slice(0, 4);
-            const glassProducts = productsData.slice(4, 8);
+            const glassProducts = productsData.slice(0, 4);
             
             const generateHTML = (products) => products.map(p => `
                 <div class="product-card">
@@ -866,6 +840,24 @@
 
             if(newContainer) newContainer.innerHTML = generateHTML(newProducts);
             if(glassContainer) glassContainer.innerHTML = generateHTML(glassProducts);
+        }
+
+        window.renderGlassCategory = function() {
+            const container = document.getElementById('glass-category-container');
+            if (!container) return;
+
+            // Lấy 4 sản phẩm tiếp theo (Ly, Bình nước, Bát, Lọ hoa) hiển thị trong Danh mục con
+            const glassCategoryProducts = productsData.slice(4, 8);
+            
+            container.innerHTML = glassCategoryProducts.map(p => `
+                <div class="product-card" style="margin: 15px;">
+                    <div class="view-count">👁️ ${p.views}</div>
+                    <img src="${p.img}" alt="${p.title}" onclick="openModal(${p.id})">
+                    <div class="product-info">
+                        <h2 class="product-title" onclick="openModal(${p.id})">${p.title}</h2>
+                    </div>
+                </div>
+            `).join('');
         }
 
         window.renderRanking = function() {
