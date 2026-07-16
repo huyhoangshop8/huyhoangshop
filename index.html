@@ -551,6 +551,175 @@
 
         .site-footer p { margin: 8px 0; }
         .site-footer .highlight { color: #f1c40f; font-weight: bold; }
+
+        /* ============================================
+           RESPONSIVE — GIỮ NGUYÊN MÀU SẮC & ANIMATION
+           ============================================ */
+
+        * { box-sizing: border-box; }
+
+        img { max-width: 100%; }
+
+        .marquee-container marquee {
+            font-size: clamp(13px, 3vw, 18px);
+        }
+
+        /* Tablet & màn hình vừa */
+        @media (max-width: 900px) {
+            header {
+                padding: 12px 20px;
+                gap: 12px;
+            }
+
+            .logo img { height: 55px; }
+            .logo h1 { font-size: 19px; }
+
+            #search-bar { width: 160px; }
+            #search-bar:focus { width: min(280px, 55vw); }
+
+            .category-section,
+            .ranking-section {
+                padding: 18px 20px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            main { padding: 0 20px 30px 20px; }
+
+            .category-container { gap: 22px; }
+
+            .category-card img { width: 68px; height: 68px; }
+            .category-card span { font-size: 13px; }
+
+            .intro-box { padding: 28px 22px; font-size: 16px; }
+            .intro-box h2 { font-size: 26px; }
+
+            .home-section { padding: 22px 18px; }
+            .section-title { font-size: 22px; }
+
+            .product-card { width: 240px; }
+            .product-card > img { height: 200px; }
+        }
+
+        /* Điện thoại */
+        @media (max-width: 600px) {
+            .marquee-container { padding: 8px 0; }
+
+            header {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .logo { gap: 10px; }
+            .logo img { height: 48px; }
+            .logo h1 { font-size: 17px; }
+
+            .search-container { width: 100%; }
+            #search-bar { width: 100%; }
+            #search-bar:focus { width: 100%; }
+
+            .category-section,
+            .ranking-section {
+                margin-left: 12px;
+                margin-right: 12px;
+                padding: 15px;
+                border-radius: 15px;
+            }
+
+            .category-title { font-size: 18px; }
+
+            .category-container {
+                gap: 14px;
+                justify-content: flex-start;
+            }
+
+            .category-card { min-width: 78px; }
+            .category-card img {
+                width: 56px;
+                height: 56px;
+                border-width: 2px;
+            }
+            .category-card span { font-size: 11px; }
+
+            main { padding: 0 12px 25px 12px; }
+
+            .ranking-container {
+                gap: 10px;
+                height: 190px;
+            }
+
+            .podium-item { width: 85px; }
+            .podium-img-wrapper { width: 55px; height: 55px; }
+            .podium-stars { font-size: 9px; }
+            .rank-1 .podium-bar { height: 115px; }
+            .rank-2 .podium-bar { height: 85px; }
+            .rank-3 .podium-bar { height: 55px; }
+            .podium-bar { font-size: 12px; padding-top: 18px; }
+            .podium-bar span { font-size: 10px; }
+
+            .intro-box {
+                padding: 22px 16px;
+                font-size: 15px;
+                border-radius: 15px;
+                margin-bottom: 25px;
+            }
+            .intro-box h2 { font-size: 22px; }
+            .intro-box ul { padding-left: 5px; }
+
+            .home-section {
+                padding: 18px 14px;
+                border-radius: 15px;
+                margin-bottom: 25px;
+            }
+            .section-title { font-size: 19px; margin-bottom: 18px; }
+
+            .product-grid { gap: 16px; }
+            .product-card { width: 62vw; max-width: 230px; }
+            .product-card > img { height: 45vw; max-height: 190px; }
+            .product-title { font-size: 17px; }
+            .view-count { font-size: 12px; padding: 4px 9px; }
+
+            #products-view .product-grid,
+            #1-view .product-grid {
+                justify-content: center;
+                gap: 14px;
+            }
+            #products-view .product-card,
+            #1-view .product-card { width: 44vw; max-width: 200px; }
+            #products-view .product-card > img,
+            #1-view .product-card > img { height: 34vw; max-height: 160px; }
+
+            .empty-message { font-size: 20px; padding: 30px 0; }
+
+            .modal-content { padding: 18px; border-radius: 20px; width: 92%; }
+            .modal-img { max-height: 190px; }
+            .modal-title { font-size: 20px; }
+            .modal-body { font-size: 14px; }
+            .buy-btn { padding: 10px 24px; font-size: 15px; }
+
+            .site-footer { padding: 28px 15px; font-size: 14px; }
+
+            .floating-contact { bottom: 18px; right: 18px; }
+            .user-icon { width: 50px; height: 50px; }
+            .user-icon svg { width: 28px; height: 28px; }
+            .contact-tooltip { font-size: 13px; padding: 9px 14px; }
+        }
+
+        /* Điện thoại nhỏ */
+        @media (max-width: 380px) {
+            .logo h1 { font-size: 15px; }
+            .logo img { height: 42px; }
+
+            .category-card { min-width: 68px; }
+            .category-card img { width: 48px; height: 48px; }
+
+            #products-view .product-card,
+            #1-view .product-card { width: 46vw; }
+
+            .product-card { width: 68vw; }
+        }
     </style>
 </head>
 <body>
