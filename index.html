@@ -183,7 +183,7 @@
             position: relative;
             width: 70px;
             height: 70px;
-            margin-bottom: -15px; /* Kéo ảnh lún xuống thanh biểu đồ */
+            margin-bottom: -15px;
             z-index: 2;
         }
 
@@ -231,11 +231,9 @@
             opacity: 0.9;
         }
 
-        /* Chiều cao và màu sắc theo thứ hạng */
         .rank-1 .podium-bar { height: 140px; background: linear-gradient(to top, #f1c40f, #f39c12); }
         .rank-2 .podium-bar { height: 100px; background: linear-gradient(to top, #bdc3c7, #7f8c8d); }
         .rank-3 .podium-bar { height: 60px; background: linear-gradient(to top, #d35400, #e67e22); }
-        /* -------------------------------------- */
 
         main {
             padding: 0 40px 40px 40px;
@@ -324,20 +322,19 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             transition: transform 0.3s;
-            position: relative; /* Quan trọng để định vị lượt xem */
+            position: relative; 
         }
 
         .product-card:hover {
             transform: translateY(-5px);
         }
 
-        /* Lượt xem góc phải sản phẩm */
         .view-count {
             position: absolute;
             top: 10px;
             right: 10px;
             background: rgba(255, 255, 255, 0.9);
-            color: #0000FF; /* Màu xanh nước biển */
+            color: #0000FF; 
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 14px;
@@ -607,7 +604,7 @@
     <div class="ranking-section" id="ranking-section">
         <h2 class="category-title">🏆 Bảng Xếp Hạng Lượt Xem 🏆</h2>
         <div class="ranking-container" id="ranking-container">
-            </div>
+        </div>
     </div>
 
     <main>
@@ -632,7 +629,7 @@
 
         <div id="products-view" class="view-section">
             <div class="product-grid" id="product-container">
-                </div>
+            </div>
             <div id="no-product-msg">Không tìm thấy sản phẩm</div>
         </div>
 
@@ -680,8 +677,8 @@
     </div>
 
     <script>
-         // MẢNG QUẢN LÝ DỮ LIỆU SẢN PHẨM ĐỂ XỬ LÝ LƯỢT XEM VÀ XẾP HẠNG
-        let productsData = [
+        // Dữ liệu gốc mặc định (sẽ được sử dụng nếu chưa có lượt xem nào lưu trong bộ nhớ)
+        const baseProductsData = [
             {
                 id: 1,
                 title: "HŨ VUÔNG NẮP CÀI",
@@ -739,17 +736,17 @@
             }
         ];
 
+        // Lấy dữ liệu từ localStorage, nếu chưa có thì dùng baseProductsData
+        let productsData = JSON.parse(localStorage.getItem('huyHoangShopData')) || baseProductsData;
+
         let currentSearchKeyword = "";
 
-        // Hàm render giao diện sản phẩm
         function renderProducts() {
             const container = document.getElementById('product-container');
             const noProductMsg = document.getElementById('no-product-msg');
             
-            // Sắp xếp ưu tiên: lượt xem giảm dần
             let sortedProducts = [...productsData].sort((a, b) => b.views - a.views);
             
-            // Lọc theo tìm kiếm
             if (currentSearchKeyword) {
                 sortedProducts = sortedProducts.filter(p => p.title.toLowerCase().includes(currentSearchKeyword));
             }
@@ -773,12 +770,10 @@
             }
         }
 
-        // Hàm render Bảng xếp hạng (Podium)
         function renderRanking() {
             const rankingContainer = document.getElementById('ranking-container');
             let sorted = [...productsData].sort((a, b) => b.views - a.views).slice(0, 3);
 
-            // Cấu trúc bục: Hạng 2 (Trái) - Hạng 1 (Giữa) - Hạng 3 (Phải)
             let podiumOrder = [];
             if (sorted.length > 1) podiumOrder.push({ ...sorted[1], rank: 2, stars: '⭐⭐', label: 'Top 2' });
             if (sorted.length > 0) podiumOrder.push({ ...sorted[0], rank: 1, stars: '⭐⭐⭐', label: 'Top 1' });
@@ -798,11 +793,9 @@
             `).join('');
         }
 
-        // Khởi tạo giao diện lần đầu
         renderProducts();
         renderRanking();
 
-        // Xử lý chuyển đổi View
         const views = ['home-view', 'products-view', '1-view', '2-view', 'empty-view'];
         function showView(viewId) {
             views.forEach(id => {
@@ -811,14 +804,12 @@
             document.getElementById(viewId).classList.add('active');
         }
 
-        // Xử lý tìm kiếm
         document.getElementById('search-bar').addEventListener('input', function(e) {
             showView('products-view');
             currentSearchKeyword = e.target.value.toLowerCase();
             renderProducts();
         });
 
-        // Xử lý copy số liên hệ
         function handleContactClick() {
             const phoneNumber = "0355728826";
             navigator.clipboard.writeText(phoneNumber).then(() => {
@@ -829,7 +820,6 @@
             });
         }
 
-        // Xử lý Modal
         const modalOverlay = document.getElementById('modal-overlay');
         const modalImg = document.getElementById('modal-img');
         const modalTitle = document.getElementById('modal-title');
@@ -841,11 +831,12 @@
                 // Tăng lượt xem
                 product.views += 1;
                 
-                // Cập nhật lại giao diện sản phẩm & bảng xếp hạng ngay lập tức
+                // LƯU LẠI VÀO BỘ NHỚ TRÌNH DUYỆT ĐỂ KHÔNG BỊ MẤT KHI RELOAD
+                localStorage.setItem('huyHoangShopData', JSON.stringify(productsData));
+                
                 renderProducts();
                 renderRanking();
 
-                // Gắn dữ liệu vào Modal và hiển thị
                 modalImg.src = product.img;
                 modalTitle.innerText = product.title;
                 modalBody.innerHTML = product.details;
@@ -869,7 +860,6 @@
             alert("Hãy nhắn tin trực tiếp với shop qua Zalo để biết thêm chi tiết hơn về sản phẩm, giá cả,..v.v");
         }
 
-        // Đóng modal khi bấm ra ngoài
         window.onclick = function(event) {
             if (event.target == modalOverlay) {
                 closeModal();
