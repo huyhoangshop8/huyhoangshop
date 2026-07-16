@@ -1416,7 +1416,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Danh sách 5 sản phẩm THỰC TẾ của cửa hàng mặc định
         const baseProductsData = [
             {
                 id: 1,
@@ -1500,12 +1499,10 @@
         onValue(productsRef, (snapshot) => {
             const data = snapshot.val() || {};
             
-            // Đồng bộ dữ liệu cứng lên Firebase nếu trống, hoặc bảo toàn các thay đổi khác
             baseProductsData.forEach(p => {
                 if (!data[p.id]) {
                     update(ref(db, 'products/' + p.id), p);
                 } else if (data[p.id].title !== p.title && !data[p.id].customEdited) {
-                    // Cập nhật đè nếu có sự sai lệch thông tin và quản trị viên chưa trực tiếp chỉnh sửa
                     update(ref(db, 'products/' + p.id), {
                         title: p.title,
                         img: p.img,
@@ -1515,7 +1512,6 @@
                 }
             });
 
-            // Map dữ liệu Realtime Database thành mảng xử lý trực quan
             productsData = Object.keys(data).map(key => {
                 return {
                     id: parseInt(key),
@@ -1530,7 +1526,6 @@
             renderHouseholdCategory();
         });
 
-        // ----------------- RENDER CÁC TRANG DIỆN MẠO CHÍNH -----------------
         window.renderHomeProducts = function() {
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
@@ -1719,9 +1714,6 @@
         }
 
 
-        // =========================================================
-        // CODE LOGIC QUẢN TRỊ VIÊN (ADMIN CONTROL CORE)
-        // =========================================================
 
         let loginAttempts = 0;
 
@@ -1740,7 +1732,6 @@
             document.getElementById('login-form-modal').style.display = 'none';
         }
 
-        // Tạo chuỗi Hash SHA-256 từ ký tự đầu vào để bảo mật
         async function getSHA256Hash(string) {
             const utf8 = new TextEncoder().encode(string);
             const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
@@ -1749,7 +1740,6 @@
             return hashHex;
         }
 
-        // Xử lý nộp tài khoản / mật khẩu
         window.handleLoginSubmit = async function() {
             const userInp = document.getElementById('login-username').value.trim();
             const passInp = document.getElementById('login-password').value;
@@ -1757,8 +1747,6 @@
             const hashedUser = await getSHA256Hash(userInp);
             const hashedPass = await getSHA256Hash(passInp);
 
-            // Hoangshop1995 -> 16bbf64e6e0b42ae0bc82da85fce7e99456e77da7ef11c269962e2aba9a86eb8
-            // Trang1995     -> fe411bddcb413f902b9f94af46504b876f0896d5caa3b608f914e5603892c005
             if (hashedUser === "16bbf64e6e0b42ae0bc82da85fce7e99456e77da7ef11c269962e2aba9a86eb8" && 
                 hashedPass === "fe411bddcb413f902b9f94af46504b876f0896d5caa3b608f914e5603892c005") {
                 
@@ -1776,14 +1764,12 @@
             }
         }
 
-        // Vào vùng quyền ẩn Admin
         window.enterAdminMode = function() {
             isAdminMode = true;
             document.querySelector('.search-container').style.display = 'none';
             window.showView('admin-view');
         }
 
-        // Click Logo để đóng và thoát chế độ admin
         window.handleLogoClick = function() {
             if (isAdminMode) {
                 isAdminMode = false;
@@ -1795,7 +1781,6 @@
         }
 
 
-        // ------------------ 1, CHỨC NĂNG: CHỈNH SỬA SẢN PHẨM ------------------
         let currentEditSearchQuery = "";
         let selectedProductToEdit = null;
 
@@ -1832,7 +1817,6 @@
             `).join('');
         }
 
-        // Menu con chỉnh chi tiết và vị trí của sản phẩm A
         window.openSingleEditModal = function(id) {
             selectedProductToEdit = productsData.find(p => p.id === id);
             if(!selectedProductToEdit) return;
@@ -1843,7 +1827,6 @@
             const previewImg = document.getElementById('edit-img-preview');
             previewImg.src = selectedProductToEdit.img;
 
-            // Đọc lại toạ độ cũ từ CSS transform để gán vào slider
             let scaleVal = 1;
             let xVal = 0;
             let yVal = 0;
@@ -1877,7 +1860,6 @@
             document.getElementById('edit-img-file-input').click();
         }
 
-        // Định dạng đuôi ảnh hợp lệ PNG / JPG
         window.handleEditImgSelected = function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -1893,7 +1875,6 @@
                 const previewImg = document.getElementById('edit-img-preview');
                 previewImg.src = event.target.result;
                 
-                // Khôi phục toạ độ slider về mặc định đối với ảnh mới
                 document.getElementById('edit-zoom-slider').value = 1;
                 document.getElementById('edit-x-slider').value = 0;
                 document.getElementById('edit-y-slider').value = 0;
@@ -1902,7 +1883,6 @@
             reader.readAsDataURL(file);
         }
 
-        // Cập nhật vị trí ảnh thời gian thực khi chỉnh thanh trượt
         window.updateEditImgTransform = function() {
             const scale = document.getElementById('edit-zoom-slider').value;
             const x = document.getElementById('edit-x-slider').value;
@@ -1911,7 +1891,6 @@
             document.getElementById('edit-img-preview').style.transform = `scale(${scale}) translate(${x}px, ${y}px)`;
         }
 
-        // Lưu thông tin chỉnh sửa (Người A sửa, Người B nhìn thấy thông qua Firebase)
         window.saveProductEditChanges = function(id) {
             const title = document.getElementById('edit-prod-title').value.trim();
             const details = document.getElementById('edit-prod-details').value.replace(/\n/g, "<br>");
@@ -1933,7 +1912,7 @@
                 details: details,
                 img: imgBase64,
                 imgTransform: imgTransform,
-                customEdited: true // Đánh dấu quản trị viên đã chỉnh sửa
+                customEdited: true 
             }).then(() => {
                 alert("Chỉnh sửa sản phẩm thành công!");
                 closeEditSingleProductModal();
@@ -1944,7 +1923,6 @@
         }
 
 
-        // ------------------ 2, CHỨC NĂNG: XOÁ SẢN PHẨM ------------------
         let isMultiSelect = false;
         let selectedProductIdsToDelete = [];
 
@@ -2004,7 +1982,6 @@
             renderDeleteList();
         }
 
-        // Hiện dải ảnh xem trước những sản phẩm đã chọn ở dưới cùng
         window.renderDeletePreviewSection = function() {
             const previewSection = document.getElementById('delete-selected-preview');
             const previewRow = document.getElementById('delete-preview-row');
@@ -2054,7 +2031,6 @@
         }
 
 
-        // ------------------ 3, CHỨC NĂNG: ĐĂNG SẢN PHẨM ------------------
         window.openAddProductModal = function() {
             document.getElementById('add-product-modal').style.display = 'flex';
         }
@@ -2087,33 +2063,28 @@
             reader.readAsDataURL(file);
         }
 
-        // Nút Xác Nhận (Confirm) đăng sản phẩm mới
         window.confirmAddProduct = function() {
             const title = document.getElementById('new-prod-title').value.trim();
             const details = document.getElementById('new-prod-details').value.trim().replace(/\n/g, "<br>");
             const category = document.getElementById('new-prod-category').value;
             const previewImg = document.getElementById('add-img-preview');
 
-            // Điều kiện 1: Tên sản phẩm tối thiểu 1 chữ, tối đa 20 chữ
             if (title.length < 1 || title.length > 20) {
                 alert("Yêu cầu nhập Tên Sản Phẩm (Độ dài từ 1 đến tối đa 20 ký tự)!");
                 return;
             }
 
-            // Điều kiện 2: Bắt buộc tải ảnh lên từ máy
             if (previewImg.style.display === 'none' || !previewImg.src) {
                 alert("Bạn bắt buộc phải tải tệp ảnh sản phẩm (PNG hoặc JPG) lên!");
                 return;
             }
 
-            // Điều kiện 3: Chi tiết tối thiểu 10 chữ, tối đa 250 chữ
             const rawDetailsLength = details.replace(/<br>/g, "\n").length;
             if (rawDetailsLength < 10 || rawDetailsLength > 250) {
                 alert("Yêu cầu nhập Nội dung chi tiết (Độ dài từ 10 đến tối đa 250 ký tự)!");
                 return;
             }
 
-            // Tự động sinh ID số lớn nhất tiếp theo
             const nextId = productsData.length > 0 ? Math.max(...productsData.map(p => p.id)) + 1 : 1;
 
             const newProductObj = {
@@ -2127,10 +2098,8 @@
                 customEdited: true
             };
 
-            // Đưa lên Firebase Realtime Database
             update(ref(db, 'products/' + nextId), newProductObj).then(() => {
                 alert("Đăng sản phẩm mới thành công! Hệ thống đã cập nhật vào chuyên mục tương ứng và chuyên mục Mới.");
-                // Reset form
                 document.getElementById('new-prod-title').value = "";
                 document.getElementById('new-prod-details').value = "";
                 previewImg.src = "";
@@ -2142,7 +2111,6 @@
             });
         }
 
-        // Tắt Modal Quản trị viên nhanh bằng click khoảng trống
         window.onclick = function(event) {
             if (event.target == modalOverlay) {
                 window.closeModal();
