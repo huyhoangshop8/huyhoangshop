@@ -705,6 +705,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // Danh sách 5 sản phẩm THỰC TẾ của cửa hàng
         const baseProductsData = [
             {
                 id: 1,
@@ -763,42 +764,6 @@
             },
             {
                 id: 5,
-                title: "Ly Thủy Tinh Cao Cấp",
-                img: "4.jpg",
-                views: 0,
-                details: `Ly thủy tinh chịu nhiệt tốt, thiết kế sang trọng.<br>
-                        Giá ưu đãi: 25k/c<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
-            },
-            {
-                id: 6,
-                title: "Bình Nước Thủy Tinh 1L",
-                img: "5.jpg",
-                views: 0,
-                details: `Bình đựng nước dung tích 1 Lít, an toàn cho sức khỏe.<br>
-                        Giá: 45k/bình<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
-            },
-            {
-                id: 7,
-                title: "Bát Thủy Tinh Trong Suốt",
-                img: "6.jpg",
-                views: 0,
-                details: `Bát thủy tinh cao cấp dùng cho lò vi sóng.<br>
-                        Giá: 30k/c<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
-            },
-            {
-                id: 8,
-                title: "Lọ Hoa Thủy Tinh Trang Trí",
-                img: "7.jpg",
-                views: 0,
-                details: `Lọ hoa kiểu dáng hiện đại, điểm nhấn cho không gian.<br>
-                        Giá: 55k/c<br>
-                        <div class="contact-highlight">📞 Liên hệ zalo : 0355728826</div>`
-            },
-            {
-                id: 9,
                 title: "HŨ THỦY TINH VUÔNG LÙN",
                 img: "4.jpg",
                 views: 0,
@@ -818,17 +783,16 @@
         onValue(productsRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                const fetchedData = Object.values(data);
+                // Chỉ lấy những sản phẩm có ID nằm trong danh sách 5 sản phẩm thực tế (Loại bỏ triệt để các ID cũ khác)
+                const fetchedData = Object.values(data).filter(p => baseProductsData.some(bp => bp.id === p.id));
                 productsData = fetchedData.sort((a, b) => a.id - b.id);
                 
-                // Tự động kiểm tra và đồng bộ sản phẩm mới (ID 9) lên Firebase nếu chưa tồn tại
-                if (fetchedData.length < baseProductsData.length) {
-                    baseProductsData.forEach(p => {
-                        if (!data[p.id]) {
-                            update(ref(db, 'products/' + p.id), p);
-                        }
-                    });
-                }
+                // Đồng bộ sản phẩm mới (ID 5) lên Firebase nếu cơ sở dữ liệu chưa có
+                baseProductsData.forEach(p => {
+                    if (!data[p.id]) {
+                        update(ref(db, 'products/' + p.id), p);
+                    }
+                });
             } else {
                 baseProductsData.forEach(p => {
                     update(ref(db, 'products/' + p.id), p);
@@ -844,11 +808,11 @@
             const newContainer = document.getElementById('new-products-container');
             const glassContainer = document.getElementById('glass-products-container');
             
-            // "Các sản phẩm mới": Đảo ngược danh sách hiển thị sản phẩm mới nhất lên đầu (ID 9 sẽ đứng đầu tiên)
+            // "Các sản phẩm mới": Đảo ngược danh sách hiển thị sản phẩm mới lên đầu (Hũ vuông lùn ID 5 sẽ đứng đầu)
             const newProducts = [...productsData].reverse().slice(0, 4);
             
-            // "Đồ thủy tinh": Lấy tất cả 9 sản phẩm thủy tinh hiện tại để người dùng dễ lướt xem
-            const glassProducts = productsData.slice(0, 9);
+            // "Đồ thủy tinh": Lấy tất cả 5 sản phẩm thủy tinh hiện tại
+            const glassProducts = productsData.slice(0, 5);
             
             const generateHTML = (products) => products.map(p => `
                 <div class="product-card">
@@ -868,8 +832,8 @@
             const container = document.getElementById('glass-category-container');
             if (!container) return;
 
-            // Hiển thị đầy đủ cả 9 sản phẩm thủy tinh trong menu danh mục "Các đồ thủy tinh"
-            const glassCategoryProducts = productsData.slice(0, 9);
+            // Hiển thị đầy đủ đúng 5 sản phẩm thủy tinh trong menu danh mục "Các đồ thủy tinh"
+            const glassCategoryProducts = productsData.slice(0, 5);
             
             container.innerHTML = glassCategoryProducts.map(p => `
                 <div class="product-card" style="margin: 15px;">
